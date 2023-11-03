@@ -1,0 +1,117 @@
+﻿@model Core.DTOs.General.HeaderComponentVM
+@{
+    string cur = "ریال";
+    if (Model.SiteInfo != null)
+    {
+        cur = Model.SiteInfo.SiteCurrency ?? "ریال";
+    }
+}
+<header>
+    <!-- header-message -->
+    <div class="header-message-wrap">
+        <div class="container custom-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="top-notify-message">
+                        <p>@Model.SiteInfo!.MainPageMessage</p>
+                        <span class="message-remove">X</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header-message-end -->
+    <!-- header-top-start -->
+    <div class="header-top-wrap">
+        <div class="container custom-container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="header-top-left">
+                        <ul>
+                            <li class="header-work-time">
+                                ساعات کاری: <span> @Model.SiteInfo.WorkTime</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="header-top-right">
+                        <ul>
+                            <li><a href="/Contact">ارتباط با ما</a></li>
+                            <li><a href="/About">درباره ما</a></li>
+                            <li><a href="#">پرسش های متداول</a></li>
+                            <partial name="_LoginPartial" />
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header-top-end -->
+    <!-- header-search-area -->
+    <div class="header-search-area">
+        <div class="container custom-container">
+            <div class="row align-items-center">
+                <div class="col-xl-2 col-lg-4 d-none d-lg-block p-0">
+                    <div class="logo w-100">
+                        <a href="/" class="col-4 p-0"><img src="/Layout/img/logo/logo-128.png" width="64" height="64" alt=""></a>
+                        <a href="/" class="col-8 p-0 text-center align-self-center">
+                            <h1 class="fs-1dot9-rem">
+                                <span class="orange-color">عصاره</span>
+                                <span class="text-success">طبیعت</span>
+                            </h1>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-10 col-lg-8">
+                    <div class="d-block d-sm-flex align-items-center justify-content-end">
+                        <div class="header-search-wrap">
+                            <form asp-page="Index" method="get">
+                                <select class="custom-select" name="GroupName">
+                                    @if (Model.GroupName == "allgr")
+                                    {
+                                        <option value="allgr" selected>همه دسته بندیها</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="allgr">همه دسته بندیها</option>
+                                    }
+
+                                    
+                                    @foreach (var gr in Model.ProductGroups!.Where(w => w.IsActive).ToList())
+                                    {
+                                        if (Model.GroupName == gr.EnTitle)
+                                        {
+                                            <option value="@gr.EnTitle" selected>-- @gr.Title</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@gr.EnTitle">-- @gr.Title</option>
+                                        }
+                                        
+                                    }
+                                </select>
+                                <input type="text" name="Search" value="@Model.Search" placeholder="جستجوی محصول مورد نظر...">
+                                <button><i class="flaticon-loupe-1"></i></button>
+                            </form>
+                        </div>
+                        <div class="header-action">
+                            <ul>
+                                <li class="header-phone">
+                                    <div class="icon"><i class="flaticon-telephone"></i></div>
+                                    <a href="tel:@Model.SiteInfo.Phone1"><span>سوالی دارید، مطرح کنید</span>@Model.SiteInfo.Phone1</a>
+                                </li>
+
+                                <li class="header-cart-action" id="cartdiv">
+                                    @await Component.InvokeAsync("ShopCartComponent")
+                                    <div class="cart-amount">@Model.CartTotalValue.ToString("N0") @cur</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>

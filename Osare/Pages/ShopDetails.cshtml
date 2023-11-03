@@ -1,0 +1,390 @@
+﻿@page "/shop/d/{name}"
+@model Web.Pages.ProductDetailsModel
+@using Core.Services.Interfaces;
+@inject IStoreService _storeService;
+@{
+    ViewData["Title"] = Model.ShopDetailsvM.Product?.Name;
+    DataLayer.Entities.Supplementary.SiteInfo siteInfo = await _storeService.GetLastSiteInfo();
+    string currency = "ریال";
+    if (siteInfo != null)
+    {
+        currency = siteInfo.SiteCurrency ?? "ریال";
+    }
+    (int Price, int netPrice, int Discount, int Percent, string comment) productRes = await _storeService.GetNetPriceandDiscountOfProductAsync(Model.ShopDetailsvM.Product!.Id);
+
+}
+@section CssRefs{
+    <link rel="stylesheet" href="/Layout/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Layout/css/animate.min.css">
+    <link rel="stylesheet" href="/Layout/css/magnific-popup.css">
+    <link rel="stylesheet" href="/Layout/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/Layout/css/jquery-ui.css">
+    <link rel="stylesheet" href="/Layout/css/flaticon.css">
+    <link rel="stylesheet" href="/Layout/css/aos.css">
+    <link rel="stylesheet" href="/Layout/css/slick.css">
+    <link rel="stylesheet" href="/Layout/css/default.css">
+    <link rel="stylesheet" href="/Layout/css/style.css">
+    <link rel="stylesheet" href="/Layout/css/responsive.css">
+    <link rel="canonical" href="https://osaremarket.ir/@Model.ShopDetailsvM.Product!.EnName/" />
+}
+@section Header{
+    @await Component.InvokeAsync("HeaderComponent")
+    }
+@section Nav{
+    @await Component.InvokeAsync("MenuComponent")
+    }
+<main>
+    <!-- breadcrumb-area -->
+    <div class="breadcrumb-area breadcrumb-bg-two">
+        <div class="container custom-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">صفحه نخست</a></li>
+                                <li class="breadcrumb-item"><a href="shop.html">محصولات</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">@Model.ShopDetailsvM.Product?.Name</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb-area-end -->
+    <!-- shop-details-area -->
+    <section class="shop-details-area pt-60  pb-60">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-xs-12">
+                    <div class="shop-details-flex-wrap">
+                        <div class="shop-details-img-wrap">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="item-one" role="tabpanel" aria-labelledby="item-one-tab">
+                                    <div class="shop-details-img  p-0">
+                                        <center>
+                                            <img src="/images/products/@Model.ShopDetailsvM.Product?.BigImage" alt="@Model.ShopDetailsvM.Product?.BigImageAlt">
+                                        </center>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-xs-12">
+                    <div class="shop-details-content">
+                        <h4 class="title">@Model.ShopDetailsvM.Product?.Name</h4>
+                        <div class="shop-details-meta">
+                            <ul>
+                                <li>برند : <a href="shop.html">@Model.ShopDetailsvM.Product?.Brand</a></li>
+                                <li class="shop-details-review">
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span>محبوبیت</span>
+                                </li>
+                                <li>کد محصول : <span>@Model.ShopDetailsvM.Product?.EnName</span></li>
+                            </ul>
+                        </div>
+                        <div class="shop-details-price">
+
+                            <h2 class="price">@productRes.Price.ToString("N0") @Model.ShopDetailsvM.Currency</h2>
+                            @if (Model.ShopDetailsvM.ExistInWarehouse)
+                            {
+                                <h5 class="stock-status">موجود در انبار</h5>
+                            }
+                            else
+                            {
+                                <h5 class="stock-status text-danger">پایان موجودی</h5>
+                            }
+                            @if (@productRes.Percent != 0)
+                            {
+                                <h5 class="stock-status">تخفیف : @productRes.Percent %</h5>
+                            }
+                        </div>
+                        @*<p>@Model.ShopDetailsvM.ProductItem.HowToUse</p>*@
+                        <div class="shop-details-list">
+                            <ul>
+                                @foreach (var item in Model.ShopDetailsvM.Product!.FeatureList)
+                                {
+                                    <li><span>@item</span></li>
+                                }
+                            </ul>
+                        </div>
+
+                        <div class="shop-details-bottom">
+                            @*<h5 class="title"><a href="#"><i class="far fa-heart"></i> افزودن به علاقه مندیها</a></h5>*@
+                            <ul>
+                                @if (!string.IsNullOrEmpty(Model.ShopDetailsvM.Product!.Tags))
+                                {
+                                    <li>
+                                        <span>
+                                            بر چسب ها :
+                                            @foreach (var item in Model.ShopDetailsvM.Product!.TagList)
+                                            {
+                                                <a href="/Shop/?tag=@item.Trim().Replace(" ","-")" class="bg-info pr-1 pl-1 text-white rounded ml-1">@item</a>
+                                            }
+                                        </span>
+                                    </li>
+
+                                }
+
+                                <li>
+                                    <span>دسته بندی :</span> <a class="text-info" href="/Shop/?grName=@Model.ShopDetailsvM.Product.ProductGroup!.EnTitle">@Model.ShopDetailsvM.Product?.ProductGroup!.Title</a>
+                                </li>
+                                <li>
+                                    @foreach (var pitem in Model.ShopDetailsvM.Product!.ProductItems!.ToList())
+                                    {
+                                        (int price, int netPrice, int discount, int dispercent, string comment) pItemResult = await _storeService.GetNetPriceandDiscountOfProductItemAsync(pitem.Id);
+                                        string idd = pitem.EnName + pitem.Id.ToString();
+                                        <div class="form-check">
+                                            <input class="form-check-input frmchkinput" type="radio" name="optradio" data-id="@pitem.Id" id="@idd" value="@pitem.Price" @((pitem.ShowAsPrice) ? "checked" : "")>
+                                            <label class="form-check-label" for="@idd">
+
+
+                                                @if (pItemResult.discount != 0)
+                                                {
+                                                    <span>@pitem.Name <s>@pitem.Price.GetValueOrDefault().ToString("N0") @currency</s></span>
+                                                    <span class="pr-1 pl-1 rounded text-primary"> @pItemResult.dispercent % تخفیف</span>
+                                                    <span>&lArr;</span>
+                                                    <span>@pItemResult.netPrice.ToString("N0") @currency</span>
+                                                }
+                                                else
+                                                {
+                                                    @if (@productRes.Discount != 0)
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>@pitem.Name @pitem.Price.GetValueOrDefault().ToString("N0") @currency</span>
+                                                    }
+
+                                                }
+                                            </label>
+                                        </div>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="shop-perched-info mt-5">
+                            <div class="sd-cart-wrap">
+                                <div class="cart-plus-minus">
+                                    <input class="inpcount" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');" min="1" type="text" value="1">
+                                </div>
+                            </div>
+                            @{
+                                string? prtype = string.Empty;
+                                if (Model.ShopDetailsvM.Product.ProductItems!.Any())
+                                {
+                                    prtype = Model.ShopDetailsvM.Product?.ProductType;
+                                }
+                                int? Pid = Model.ShopDetailsvM.Product?.Id;
+                                string? IsProduct = "no";
+                                @if (!string.IsNullOrEmpty(prtype))
+                                {
+                                    if (prtype == "bulk")
+                                    {
+
+                                        Pid = Model.ShopDetailsvM.Product?.ProductItems?.FirstOrDefault(x => x.ShowAsPrice)?.Id;
+                                    }
+                                    else
+                                    {
+                                        IsProduct = "yes";
+                                    }
+                                }
+                            }
+                            @if (Model.ShopDetailsvM.ExistInWarehouse)
+                            {
+                                <a href="javascript:void(0)" data-price="@productRes.Price" data-prid="@Pid" data-ispro="@IsProduct" class="btn det-cart-button">افزودن به سبد</a>
+                            }
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="container">
+            <div class="col-12">
+                <div class="product-desc-wrap">
+                    <ul class="nav nav-tabs" id="myTabTwo" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="true">جزئیات محصول</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content" id="myTabContentTwo">
+                        <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+                            <div class="product-desc-content">
+                                <div class="container">
+                                    <div class="col-xl-12 pt-1 ">
+                                        @Html.Raw(Model.ShopDetailsvM.Product?.Comment)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- shop-details-area-end -->
+    <!-- coupon-area -->
+    @await Component.InvokeAsync("PageBannerComponent", new {Bannercount = 1 , Vieworder = 1})
+    <!-- coupon-area-end -->
+    <!-- best-sellers-area -->
+    @if (Model.ShopDetailsvM.ExistInWarehouse)
+    {
+        int pcount = Model.ShopDetailsvM.GroupProducts.Where(w => w.Id != Model.ShopDetailsvM.Product?.Id).Count();
+        if (pcount != 0)
+        {
+            <section class="best-sellers-area pt-70 pb-70">
+                <div class="container">
+                    <div class="row align-items-end mb-40">
+                        <div class="col-md-8 col-sm-9">
+                            <div class="section-title">
+                                <span class="title">محصولات مرتبط</span>
+                                <h2 class="sub-title">از مجموعه @Model.ShopDetailsvM.Product?.ProductGroup!.Title</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-3">
+                            <div class="section-btn text-right text-md-left">
+                                <a href="/shop" class="btn">نمایش همه</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="best-sellers-products">
+                        <div class="row justify-content-center">
+                            @if (Model.ShopDetailsvM.IsBulk)
+                            {
+                                @foreach (var pr in Model.ShopDetailsvM.GroupProducts.Where(w => w.Id != Model.ShopDetailsvM.Product?.Id).ToList())
+                                {
+                                    (int price, int netPrice, int discount, int percent, string comment) = await _storeService.GetNetPriceandDiscountOfProductAsync(pr.Id);
+                                    string type = string.Empty;
+                                    bool exist = await _storeService.ExistProductInWareHouseAsync(pr.Id);
+                                    <div class="col-3">
+                                        <div class="sp-product-item mb-20">
+                                            <div class="sp-product-thumb">
+                                                @if (percent != 0)
+                                                {
+                                                    <span class="batch discount">@percent %</span>
+                                                }
+                                                @if (!string.IsNullOrEmpty(pr.Label))
+                                                {
+                                                    <span class="batch-label zlabel">@pr.Label</span>
+                                                }
+
+                                                <a href="/shop/d/@pr.EnName"><img src="/images/products/@pr.SmallImage1" alt="@pr.Name"></a>
+                                            </div>
+                                            <div class="sp-product-content">
+                                                <div class="rating">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                </div>
+                                                <h6 class="title"><a href="/shop/d/@pr.EnName">@pr.Name</a></h6>
+                                                @if (exist)
+                                                {
+                                                    <span class="product-status">موجود در انبار</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="product-status-danger">پایان موجودی</span>
+                                                }
+                                                <p class="mt-2">@price.ToString("N0") &ensp; @currency</p>
+                                                <div class="sp-cart-wrap">
+                                                    <a href="/shop/d/@pr.EnName" class="btn  rounded">مشاهده کالا</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                @foreach (var pr in Model.ShopDetailsvM.GroupProductItems.ToList())
+                                {
+                                    (int price, int netPrice, int discount, int percent, string comment) = await _storeService.GetNetPriceandDiscountOfProductItemAsync(pr.Id);
+                                    string type = string.Empty;
+                                    bool exist = await _storeService.ExistProductInWareHouseAsync(pr.Id);
+                                    <div class="col-3">
+                                        <div class="sp-product-item mb-20">
+                                            <div class="sp-product-thumb">
+                                                @if (percent != 0)
+                                                {
+                                                    <span class="batch discount">@percent %</span>
+                                                }
+                                                @if (!string.IsNullOrEmpty(pr.Label))
+                                                {
+                                                    <span class="batch-label zlabel">@pr.Label</span>
+                                                }
+
+                                                <a href="/shop/d/@pr.Product!.EnName"><img src="/images/products/@pr.Product!.SmallImage1" alt="@pr.Name"></a>
+                                            </div>
+                                            <div class="sp-product-content">
+                                                <div class="rating">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                </div>
+                                                <h6 class="title"><a href="/shop/d/@pr.EnName">@pr.Name</a></h6>
+                                                @if (exist)
+                                                {
+                                                    <span class="product-status">موجود در انبار</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="product-status-danger">پایان موجودی</span>
+                                                }
+                                                <p class="mt-2">@price.ToString("N0") &ensp; @currency</p>
+                                                <div class="sp-cart-wrap">
+                                                    <a href="/shop/d/@pr.EnName" class="btn  rounded">مشاهده کالا</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+
+    }
+
+    <!-- best-sellers-area-end -->
+</main>
+@section Footer{
+    @await Component.InvokeAsync("FooterComponent")
+    }
+@section JsRefs{
+    <script src="~/Layout/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="~/Layout/js/bootstrap.min.js"></script>
+    <script src="~/Layout/js/isotope.pkgd.min.js"></script>
+    <script src="~/Layout/js/imagesloaded.pkgd.min.js"></script>
+    <script src="~/Layout/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/Layout/js/jquery.countdown.min.js"></script>
+    <script src="~/Layout/js/jquery-ui.min.js"></script>
+    <script src="~/Layout/js/slick.min.js"></script>
+    <script src="~/Layout/js/ajax-form.js"></script>
+    <script src="~/Layout/js/wow.min.js"></script>
+    <script src="~/Layout/js/aos.js"></script>
+    <script src="~/Layout/js/plugins.js"></script>
+    <script src="~/Layout/js/main.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    }

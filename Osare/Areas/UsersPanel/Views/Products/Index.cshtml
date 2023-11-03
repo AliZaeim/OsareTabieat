@@ -1,0 +1,165 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.Product>
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "کالاها";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">کالاها</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">ثبت کالا</a>
+    <input id="mygrInput" type="text" placeholder="جستجو گروه کالا">
+    <input id="myprInput" type="text" placeholder="جستجو نام کالا">
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle p-0">
+                #
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                @Html.DisplayNameFor(model => model.EnName)
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                @Html.DisplayNameFor(model => model.ProductType)
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th class="text-xs-center align-middle p-0">
+                @Html.DisplayNameFor(model => model.ViewCount)
+            </th>
+            <th class="text-xs-center align-middle p-0">عملیات</th>
+        </tr>
+    </thead>
+    <tbody id="myTable">
+        @foreach (var item in Model.GroupBy(g => g.ProductGroup))
+        {
+            <tr data-grTitle="@item.Key?.Title">
+                <td>@item.Key?.Title</td>
+            </tr>
+            int rad = 1;
+            @foreach (var pr in item.Key!.Products)
+            {
+                <tr data-grTitle="@item.Key?.Title">
+                    <td class="text-xs-center align-middle p-0">
+                        @rad
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @pr.Name @pr.Brand
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @pr.EnName
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @if (pr.ProductType == "bulk")
+                        {
+                            <span>فله ای</span>
+                        }
+                        else
+                        {
+                            <span>بسته بندی</span>
+                        }
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @if (pr.Price.HasValue)
+                        {
+                            <span>@pr.Price.Value.ToString("N0")</span>
+                        }
+                        else
+                        {
+                            if (pr.ProductType == "bulk")
+                            {
+                                if (pr.ProductItems?.Count != 0)
+                                {
+                                    <span>@pr.ProductItems?.FirstOrDefault(x => x.ShowAsPrice)?.Price.GetValueOrDefault().ToString("N0")</span>
+                                }
+                            }
+                        }
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @if (pr.IsActive)
+                        {
+                            <span class="fa fa-check-square cursor-pointer chk" data-id="@pr.Id" data-status="0"></span>
+                        }
+                        else
+                        {
+                            <span class="fa fa-square-o cursor-pointer chk" data-id="@pr.Id" data-status="1"></span>
+                        }
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        @pr.ViewCount.GetValueOrDefault()
+                    </td>
+                    <td class="text-xs-center align-middle p-0">
+                        <a asp-action="Edit" asp-route-id="@pr.Id">ویرایش</a> |
+                        <a asp-action="Details" asp-route-id="@pr.Id">جزئیات</a> |
+                        <a asp-action="Delete" asp-route-id="@pr.Id">حذف</a> 
+                        @if (pr.ProductType == "bulk")
+                        {
+                            <span> | </span>
+                            <a asp-action="Index" asp-controller="ProductItems" asp-route-Pid="@pr.Id">زیر مجموعه ها  <span class="tag tag-square tag-primary">@pr.ProductItems?.Count()</span></a>
+                            <span> | </span>
+                            <a asp-action="Create" asp-controller="ProductItems" asp-route-Pid="@pr.Id"> افزودن زیر مجموعه</a>
+                        }
+
+                    </td>
+                </tr>
+                rad++;
+            }
+        }
+    </tbody>
+</table>
+@section Scripts
+    {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#mygrInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).attr("data-grTitle").indexOf(value) > -1);
+
+                });
+            });
+            $("#myprInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().indexOf(value) > -1)
+                });
+            });
+            $(".chk").click(function () {
+                if (confirm("آیا مطمئن به تغییر وضعیت محصول هستید؟")) {
+                    var idd = $(this).attr("data-id");
+                    var st = $(this).attr("data-status");
+                    var th = $(this);
+                    $.ajax({
+                        url: "/UsersPanel/Products/ChangeStatus",
+                        data: { id: idd, status: st },
+                        type: "GET",
+                        success: function (result) {
+                            if (result === true) {
+                                th.removeClass("fa-square-o").addClass("fa-check-square");
+                                th.attr("data-status", 0);
+                            }
+                            else {
+
+                                th.removeClass("fa-check-square").addClass("fa-square-o");
+                                th.attr("data-status", 1);
+                            }
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    })
+                }
+
+            });
+        });
+    </script>
+}

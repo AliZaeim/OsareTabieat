@@ -1,0 +1,105 @@
+﻿@model DataLayer.Entities.Store.Cart;
+@using Core.Services.Interfaces;
+@inject IStoreService _storService;
+@{
+    DataLayer.Entities.Supplementary.SiteInfo siteinfo = await _storService.GetLastSiteInfo();
+    string cur = "ریال";
+    if (siteinfo != null)
+    {
+        cur = siteinfo.SiteCurrency ?? "ریال";
+    }
+}
+
+@if (Model != null)
+{
+    @if (!Model.CheckOut)
+    {
+        <div class="header-cart-wrap">
+            <a href="@((Model?.CartItems.Count !=0)? "/Cart" : "javascript:void(0)")"><i class="flaticon-shopping-basket"></i></a>
+            <span class="item-count">@Model?.CartItems.Sum(x => x.Quantity)</span>
+            @if (Model?.CartItems.Count != 0)
+            {
+                <ul class="minicart">
+                    <li class="cur">واحد قیمت : @cur</li>
+                    @foreach (var citem in Model?.CartItems!)
+                    {
+                        DataLayer.Entities.Store.Product? product = null;
+                        DataLayer.Entities.Store.ProductItem? productItem = null; 
+                        string? image = string.Empty;string title = string.Empty;
+                        if (citem.ProductId != null)
+                        {
+                            product = await _storService.GetProductByIdAsync(citem.ProductId!.Value);
+                            image = product?.SmallImage2;
+                            title = product?.FullName!;
+                        }
+                        else if (citem.ProductItemId != null)
+                        {
+                            productItem = await _storService.GetProductItemByIdAsync(citem.ProductItemId!.Value);
+                            image = productItem!.Product?.SmallImage2;
+                            title = productItem?.Product!.Name + " " + productItem!.Name;
+                        }
+                        <li class="d-flex align-items-start">
+                            <div class="cart-img">
+                                <a href="/shop/d/@product?.EnName"><img src="/images/products/@image" alt="@productItem?.Name"></a>
+                            </div>
+                            <div class="cart-content">
+                                <h4><a href="/shop/d/@product?.EnName">@title</a></h4>
+                                <div class="cart-price">
+                                    <span>
+                                        @{
+                                            int itemSum = citem.Quantity * citem.NetPrice;
+                                        }
+                                        <span class="itemsum">@itemSum.ToString("N0")</span>  =
+                                    </span>
+                                    <span class="new">@citem.NetPrice.ToString("N0") &times; @citem.Quantity </span>
+                                </div>
+                            </div>
+                            <div class="del-icon">
+                                <a href="javascript:void(0)" class="removeCartItem" data-cartid="@citem.CartId.ToString()" data-itemid="@citem.Id" data-name="@productItem?.Product?.Name @productItem?.Name"><i class="far fa-trash-alt"></i></a>
+                            </div>
+                        </li>
+                    }
+                    <li>
+                        <div class="total-price">
+                            <span class="f-left">مجموع:</span>
+                            <span class="f-right">@Model.CartItems.Sum(x => x.Quantity * x.NetPrice).ToString("N0") @cur</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="checkout-link">
+                            <a href="/Cart">سبد خرید</a>
+                            <a class="black-color" href="/Checkout">صورتحساب</a>
+                        </div>
+                    </li>
+                </ul>
+            }
+            else
+            {
+                <ul class="minicart">
+                    <li class="text-center text-danger">سبد خالی می باشد !</li>
+                </ul>
+            }
+
+        </div>
+    }
+    else
+    {
+        <div class="header-cart-wrap">
+            <a href="javascript:void(0)"><i class="flaticon-shopping-basket"></i></a>
+            <span class="item-count">0</span>
+        </div>
+    }
+
+}
+else
+{
+    <div class="header-cart-wrap">
+        <a href="javascript:void(0)"><i class="flaticon-shopping-basket"></i></a>
+        <span class="item-count">0</span>
+    </div>
+}
+
+
+
+
+

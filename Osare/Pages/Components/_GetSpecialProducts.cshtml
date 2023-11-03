@@ -1,0 +1,75 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.Product>
+@using Core.Services.Interfaces;
+@inject IStoreService _storeService;
+@{
+    DataLayer.Entities.Supplementary.SiteInfo siteInfo = await _storeService.GetLastSiteInfo();
+    string currency = "ریال";
+    if (siteInfo != null)
+    {
+        currency = siteInfo.SiteCurrency?? "ریال";
+    }
+}
+<section class="special-products-area gray-bg pt-75 pb-60">
+    <div class="container">
+        <div class="row align-items-end mb-50">
+            <div class="col-md-8 col-sm-9">
+                <div class="section-title">
+                    <span class="sub-title">فروشگاه عصاره طبیعت</span>
+                    <h2 class="title">محصولات ویژه ما</h2>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-3">
+                <div class="section-btn text-right text-md-left">
+                    <a href="shop.html" class="btn">نمایش همه</a>
+                </div>
+            </div>
+        </div>
+        <div class="special-products-wrap">
+            <div class="row justify-content-center">
+                @foreach (var pr in Model.ToList())
+                {
+                    (int price, int netPrice, int discount, int percent, string comment) = await _storeService.GetNetPriceandDiscountOfProductItemAsync(pr.Id);
+                    bool exist = await _storeService.ExistProductInWareHouseAsync(pr.Id);
+                    <div class="col-xl-3 col-md-4 col-sm-6">
+                        <div class="sp-product-item mb-20">
+                            <div class="sp-product-thumb">
+                                @if (percent != 0)
+                                {
+                                    <span class="batch discount">@percent %</span>
+                                }
+                                @if (!string.IsNullOrEmpty(pr.Label))
+                                {
+                                    <span class="batch-label zlabel">@pr.Label</span>
+                                }
+
+                                <a href="/shop/d/@pr.EnName"><img src="/images/products/@pr.SmallImage1" alt="@pr.Name"></a>
+                            </div>
+                            <div class="sp-product-content">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h6 class="title"><a href="/shop/d/@pr.EnName">@pr.Name</a></h6>
+                                @if (exist)
+                                {
+                                    <span class="product-status">موجود در انبار</span>
+                                }
+                                else
+                                {
+                                    <span class="product-status-danger">پایان موجودی</span>
+                                }
+                                <p class="mt-2">@price.ToString("N0") &ensp; @currency</p>
+                                <div class="sp-cart-wrap">
+                                    <a href="/shop/d/@pr.EnName" class="btn  rounded">مشاهده کالا</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

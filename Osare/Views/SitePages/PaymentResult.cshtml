@@ -1,0 +1,43 @@
+﻿@model Core.DTOs.General.PaymentResultVM
+@{
+    ViewData["Title"] = "نتیجه پرداخت";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@section CssRefs{
+    <link rel="stylesheet" href="/Layout/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Layout/css/animate.min.css">
+    <link rel="stylesheet" href="/Layout/css/magnific-popup.css">
+    <link rel="stylesheet" href="/Layout/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/Layout/css/jquery-ui.css">
+    <link rel="stylesheet" href="/Layout/css/flaticon.css">
+    <link rel="stylesheet" href="/Layout/css/aos.css">
+    <link rel="stylesheet" href="/Layout/css/slick.css">
+    <link rel="stylesheet" href="/Layout/css/default.css">
+    <link rel="stylesheet" href="/Layout/css/style.css">
+    <link rel="stylesheet" href="/Layout/css/responsive.css">
+    <link rel=“canonical” href="https://osaremarket.ir/PaymentResult" />
+}
+@section Header{
+    @await Component.InvokeAsync("HeaderComponent")
+}
+@section Nav{
+    @await Component.InvokeAsync("MenuComponent")
+    }
+<main>
+    <div class="container">
+        <h1 class="text-xs-center alert alert-info">نتیجه پرداخت</h1>
+        <h4 class="text-xs-center text-success">@Model.PayMessage</h4>
+        <h5 class="text-xs-center text-success">شماره سفارش : @Model.DedicatedNumber</h5>
+        <h5 class="text-xs-center text-success">شماره تراکنش : @Model.TransId</h5>
+    </div>
+</main>
+
+
+@section Footer{
+    @await Component.InvokeAsync("FooterComponent")
+    }
+@section JsRefs{
+    <script src="/Layout/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="/Layout/js/bootstrap.min.js"></script>    
+    <script src="/Layout/js/main.js"></script>
+}

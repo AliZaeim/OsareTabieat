@@ -1,0 +1,54 @@
+﻿@model IEnumerable<DataLayer.Entities.User.User>
+
+@{
+    ViewData["Title"] = "کاربران سایت";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">کاربران سایت</h1>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Family)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Cellphone)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Family)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Cellphone)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+
+                <td class="text-xs-center align-middle">
+                    <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

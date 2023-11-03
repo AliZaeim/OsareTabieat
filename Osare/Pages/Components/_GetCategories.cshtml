@@ -1,0 +1,29 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.ProductGroup>
+<div class="container custom-container">
+    <div class="slider-category-wrap">
+        <div class="row category-active">
+            @foreach (var item in Model)
+            {
+                string activecls = "actvie";
+                if (item != Model.FirstOrDefault())
+                {
+                    activecls = string.Empty;
+                }
+                <div class="col-lg-2">
+                    <div class="category-item @activecls">
+                        <a href="/shop/?grName=@item.EnTitle" class="category-link"></a>
+                        <div class="category-thumb">
+                            <img src="/images/pgroups/@item.Image" width="120" height="120" alt="@item.Title">
+                        </div>
+                        <div class="category-content">
+                            <h6 class="title">@item.Title</h6>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+

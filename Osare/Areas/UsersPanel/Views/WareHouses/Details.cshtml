@@ -1,0 +1,59 @@
+﻿@model DataLayer.Entities.Store.WareHouse
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "جزئیات دفتر انبار";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">جزئیات دفتر انبار</h1>
+
+<div class="container-fluid">    
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RegDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.RegDate.ToShamsiN_WithTime()
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Input)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Input)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Export)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Export)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsDeleted)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WareHouse_Comment)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WareHouse_Comment)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductItem)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProductItem!.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CartItem)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CartItem!.Cart!.DedicatedCode)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

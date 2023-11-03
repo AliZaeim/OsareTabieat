@@ -1,0 +1,55 @@
+﻿@model IEnumerable<DataLayer.Entities.Blogs.Blog>
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "بلاگ ها";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">بلاگ ها</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">ثبت بلاگ</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.BlogTitle)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.BlogDate)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.BlogIsActive)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.BlogShortKey)
+            </th>
+            <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderByDescending(x => x.BlogDate).ToList())
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.BlogTitle)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @item.BlogDate.ToShamsiN_WithTime()
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.BlogIsActive)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.BlogShortKey)
+                </td>
+                <td class="text-xs-center align-middle">
+                    <a asp-action="Edit" asp-route-id="@item.BlogId">ویرایش</a> |
+                    <a asp-action="Details" asp-route-id="@item.BlogId">جزئیات</a> |
+                    <a asp-action="Delete" asp-route-id="@item.BlogId">حــذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

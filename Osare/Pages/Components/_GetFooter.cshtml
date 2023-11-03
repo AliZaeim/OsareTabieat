@@ -1,0 +1,129 @@
+﻿@model Core.DTOs.General.FooterViewModel;
+@{
+    string address = "کرج، مهرشهر، خیابان رسولی، نبش کوچه پیچک";
+    string phone = "026-3225178";
+    string workTime = "هر روز هفته، از 10 صبح تا 10 شب";
+    if (!string.IsNullOrEmpty(Model.SiteInfo!.Address))
+    {
+        address = Model.SiteInfo.Address;
+    }
+    if (!string.IsNullOrEmpty(Model.SiteInfo.Phone1))
+    {
+        phone = Model.SiteInfo.Phone1;
+    }
+    if (!string.IsNullOrEmpty(Model.SiteInfo.WorkTime))
+    {
+        workTime = Model.SiteInfo.WorkTime;
+    }
+
+}
+<footer>
+    <div class="footer-area gray-bg pt-80 pb-30">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="footer-widget mb-50">
+                        <div class="footer-logo mb-25">
+                            <a href="/"><img src="/Layout/img/logo/logo-128.png" class="ml-2" width="32" height="32" alt="لوگوی فروشگاه عصاره طبیعت"><span class="store"><span class="text-warning">عصاره</span><span class="text-success"> طبیعت</span></span></a>
+                        </div>
+                        <div class="footer-contact-list">
+                            <ul>
+                                <li>
+                                    <div class="icon"><i class="flaticon-place"></i></div>
+
+                                    <p>@address</p>
+                                </li>
+                                <li>
+                                    <div class="icon"><i class="flaticon-telephone-1"></i></div>
+
+                                    <h5 class="number"><a href="tel:@phone">@phone</a></h5>
+                                </li>
+                                @* <li>
+                                <div class="icon"><i class="flaticon-mail"></i></div>
+                                <p><a href=""><span class="__cf_email__" data-cfemail="70030500001f020430061517151e5e131f1d">[email&#160;protected]</span></a></p>
+                                </li>*@
+                                <li>
+                                    <div class="icon"><i class="flaticon-wall-clock"></i></div>
+                                    <p>@workTime</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="footer-social">
+                            <ul>
+                                <li><a href="@Model.SiteInfo.WhatsUpLink"><i class="fab fa-whatsapp"></i></a></li>
+                                <li><a href="@Model.SiteInfo.InstaLink"><i class="fab fa-instagram"></i></a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                    <div class="footer-widget mb-50">
+                        <div class="fw-title">
+                            <h5 class="title">خدمات مشتری</h5>
+                        </div>
+                        <div class="fw-link">
+                            <ul>
+                                <li><a href="/cart">سبد خرید</a></li>
+                                <li><a href="/terms">قواعد و ضوابط</a></li>
+                                <li><a href="/blogs">وبلاگ</a></li>
+                                <li><a href="/about">درباره ما</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                    <div class="footer-widget mb-50">
+                        <div class="fw-title">
+                            <h5 class="title">صفحات</h5>
+                        </div>
+                        <div class="fw-link">
+                            <ul>
+                                <li><a href="/sitemap">نقشه سایت</a></li>
+                                <li><a href="/MyOrders">رهگیری سفارشات</a></li>
+                                <li><a href="/orders">سفارشات</a></li>
+                                <li><a href="/contact">ارتباط با ما</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6">
+                    <div class="footer-widget footer-box-widget mb-50">
+
+                        <div class="f-newsletter">
+                            <div class="fw-title">
+                                <h5 class="title">عضویت در خبرنامه</h5>
+                            </div>
+                            <form id="frmFooter" asp-page="Index" asp-page-handler="SaveCellphone" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                @Html.AntiForgeryToken()
+                                <input autocomplete="off" asp-for="@Model.CellphonesBank!.Cellphone" required
+                                       oninvalid="ths.setCustomValidity('تلفن همراه را وارد کنید')"
+                                       oninput="setCustomValidity('')" placeholder="تلفن همراه-0912....">
+                                <span asp-validation-for="@Model.CellphonesBank!.Cellphone" class="text-danger"></span>
+                                <button type="submit" ><i class="flaticon-send"></i></button>
+                            </form>                       
+                            <p>جهت اطلاع از تخفیفات و محصولات جدید</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright-wrap">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="copyright-text">
+                        <p>کلیه حقوق برای عصاره طبیعت محفوظ است</p>
+                    </div>
+                </div>
+                @*<div class="col-md-6">
+                <div class="payment-accepted text-center text-md-left">
+                <img src="img/images/payment_card.png" alt="">
+                </div>
+                </div>*@
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.Cart>
+
+@{
+    ViewData["Title"] = "سفارش های ثبت شده";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">سفارش های ثبت شده</h1>
+
+
+<table class="table tabl-borders">
+    <thead>
+        <tr> 
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model.BuyerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BuyerFamily)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BuyerCellphone)
+            </th>
+            
+            
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.BuyerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuyerFamily)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuyerCellphone)
+            </td>
+            
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a> |
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

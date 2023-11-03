@@ -1,0 +1,36 @@
+﻿@model DataLayer.Entities.Supplementary.BannerNextBase
+
+@{
+    ViewData["Title"] = "جزئیات بسته بنر";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">جزئیات بسته بنر</h1>
+
+<div class="container-fluid">
+    
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BannerNextBase_Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BannerNextBase_Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BannerNextBase_ShowingType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BannerNextBase_ShowingType)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BannerNextBase_IsActive)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BannerNextBase_IsActive)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.BannerNextBase_Id">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

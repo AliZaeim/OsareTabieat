@@ -1,0 +1,171 @@
+﻿@page
+@model Web.Pages.ContactModel
+@{
+    ViewData["Title"] = "تماس با عصاره طبیعت";
+}
+@section CssRefs{
+    <link rel="stylesheet" href="/Layout/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Layout/css/animate.min.css">
+    <link rel="stylesheet" href="/Layout/css/magnific-popup.css">
+    <link rel="stylesheet" href="/Layout/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/Layout/css/jquery-ui.css">
+    <link rel="stylesheet" href="/Layout/css/flaticon.css">
+    <link rel="stylesheet" href="/Layout/css/aos.css">
+    <link rel="stylesheet" href="/Layout/css/slick.css">
+    <link rel="stylesheet" href="/Layout/css/default.css">
+    <link rel="stylesheet" href="/Layout/css/style.css">
+    <link rel="stylesheet" href="/Layout/css/responsive.css">
+}
+@section Header{
+    @await Component.InvokeAsync("HeaderComponent")
+    }
+@section Nav{
+    @await Component.InvokeAsync("MenuComponent")
+    }
+<main>
+    <!-- breadcrumb-area -->
+    <div class="breadcrumb-area breadcrumb-bg">
+        <div class="container custom-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content">
+                        <h2 class="title">تماس با عصاره طبیعت</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">صفحه نخست</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">ارتباط با ما</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb-area-end -->
+    <!-- map-area -->
+    <div class="container-fluid mt-20">
+        <div class="row">
+            <div class="col-md-12">
+                <iframe src="https://balad.ir/embed?p=6Ey7ik3Kp70IeL" title="مشاهده «عصاره طبیعت» روی نقشه بلد" height="300" frameborder="0" style="border:0;width:100%" allowfullscreen="" loading="lazy" aria-hidden="false" tabindex="0"></iframe>
+
+            </div>
+        </div>
+    </div>
+    <!-- map-area-end -->
+    <!-- contact-area -->
+    <section class="contact-area pt-90 pb-90">
+        <div class="container">
+            <div class="container-inner-wrap">
+                <div class="row justify-content-center justify-content-lg-between">
+                    <div class="col-lg-6 col-md-8 order-2 order-lg-0">
+                        <div class="contact-title mb-25">
+                            <h5 class="title mb-5">ارتباط با عصاره طبیعت</h5>
+                            <h2 class="sub-title">لطفا نظرات، پیشنهادات خود را با ما مطرح کنید<span>.</span></h2>
+                        </div>
+                        <div class="contact-wrap-content">
+                            <p>فروشگاه عصاره طبیعت با بررسی نظرات و پیشنهادات مشتریان خود، سعی در بهبود خدمات و محصولات خود دارد.</p>
+                            <form class="contact-form" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-grp">
+                                    <label class="form-label" asp-for="CustomerContact.FullName"></label>
+                                    <input type="text" asp-for="CustomerContact.FullName">
+                                    <span asp-validation-for="CustomerContact.FullName" class="text-danger"></span>
+                                </div>
+                                <div class="form-grp">
+                                    <label class="form-label" asp-for="CustomerContact.Cellphone"></label>
+                                    <input type="text" asp-for="CustomerContact.Cellphone" placeholder="09...">
+                                    <span asp-validation-for="CustomerContact.Cellphone" class="text-danger"></span>
+                                </div>
+                                <div class="form-grp">
+                                    <label class="form-label" asp-for="CustomerContact.Message"></label>
+                                    <textarea rows="3" maxlength="500" asp-for="CustomerContact.Message"></textarea>
+                                    <span asp-validation-for="CustomerContact.Message" class="text-danger"></span>
+                                </div>
+
+                                <button type="submit" class="btn rounded-btn">ارسال پیام</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-5 col-lg-6 col-md-8">
+                        <div class="contact-info-wrap">
+                            <div class="contact-img">
+                                <img src="images/contact_img.png" alt="">
+                            </div>
+                            <div class="contact-info-list">
+                                <ul>
+                                    <li>
+                                        <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+                                        <div class="content">
+                                            <p>@Model.SiteInfo?.Address</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="icon"><i class="fas fa-phone-alt"></i></div>
+                                        <div class="content">
+                                            <p>@Model.SiteInfo?.Mobile1</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="icon"><i class="fas fa-phone-alt"></i></div>
+                                        <div class="content">
+                                            <p>@Model.SiteInfo?.Mobile2</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="icon"><i class="fas fa-phone-alt"></i></div>
+                                        <div class="content">
+                                            <p>@Model.SiteInfo?.Phone1</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- contact-area-end -->
+    @if (TempData["saved"] != null)
+    {
+        <input id="saved" type="hidden" value="@TempData["saved"]!.ToString()" />
+    }
+
+</main>
+@section Footer{
+    @await Component.InvokeAsync("FooterComponent")
+    }
+@section JsRefs{
+
+
+
+    <script src="~/Layout/js/vendor/jquery-3.6.0.min.js"></script>
+   
+    <script src="/Layout/js/bootstrap.min.js"></script>
+    <script src="/Layout/js/isotope.pkgd.min.js"></script>
+    <script src="/Layout/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/Layout/js/jquery.magnific-popup.min.js"></script>
+    <script src="/Layout/js/jquery.countdown.min.js"></script>
+    <script src="/Layout/js/jquery-ui.min.js"></script>
+    <script src="/Layout/js/slick.min.js"></script>
+    <script src="/Layout/js/ajax-form.js"></script>
+    <script src="/Layout/js/wow.min.js"></script>
+    <script src="/Layout/js/aos.js"></script>
+    <script src="/Layout/js/plugins.js"></script>
+    <script src="/Layout/js/main.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function () {
+            var sa = $("#saved").val();
+            if (sa != null) {
+                if (sa == "yes") {
+                    Swal.fire('پیام شما ثبت شد !');
+                }
+            }            
+        });
+    </script>
+
+    }

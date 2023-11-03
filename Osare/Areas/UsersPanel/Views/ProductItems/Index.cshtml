@@ -1,0 +1,87 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.ProductItem>
+
+@{    
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+    string title = "زیرمجموعه های کالا";
+    if (ViewData["ProductName"] != null)
+    {
+        title += " " + ViewData["ProductName"];
+    }
+    ViewData["Title"] = title;
+}
+
+<h1 class="text-xs-center alert alert-info">@title</h1>
+@if (ViewData["Pid"] == null)
+{
+    <p>
+        <a asp-action="Create" class="btn btn-success">افزودن</a> |
+        <a asp-action="Index" asp-controller="Products">کالاها</a>
+    </p>
+}
+else
+{
+    <p>
+        <a asp-action="Create" asp-route-Pid=@ViewData["Pid"] class="btn btn-success">افزودن</a> |
+        <a asp-action="Index" asp-controller="Products">کالاها</a>
+    </p>
+}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.EnName)
+            </th>
+            
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.UnitofMeasure)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Product)
+            </th>
+            <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.EnName)
+                </td>
+                
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.UnitofMeasure)
+                </td>
+                
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Product!.Name)
+                </td>
+                <td class="text-xs-center align-middle">
+                    <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">حــذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

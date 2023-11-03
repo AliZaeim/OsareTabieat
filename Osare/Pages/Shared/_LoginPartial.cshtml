@@ -1,0 +1,20 @@
+﻿@if (User.Identity!.IsAuthenticated)
+{
+    <li>
+        <a href="/UsersPanel/Home/Index" class="text-success d-inline-flex" title="@User.FindFirst("fullname")?.Value">پنل کاربری</a>
+        <span>&ensp;|&ensp;</span>
+        <form method="post" class="d-inline-flex" asp-page="/Account/Logout"  >            
+            <button type="submit"  class="text-danger submitLink">خروج</button>
+        </form>
+    </li>
+}
+else
+{
+    <li>
+        <a href="/Login">ورود</a>
+        <span>&ensp;|&ensp;</span>
+        <a href="/Register" class="text-success">عضویت</a>
+    </li>
+
+
+}

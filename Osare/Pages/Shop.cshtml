@@ -1,0 +1,338 @@
+﻿@page "/shop"
+@model Web.Pages.ProductsModel
+@using Core.Services.Interfaces;
+@inject IStoreService _storeService;
+@{
+    ViewData["Title"] = "کالاهای فروشگاه عصاره طبیعت";
+}
+@section CssRefs{
+    <link rel="stylesheet" href="/Layout/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Layout/css/animate.min.css">
+    <link rel="stylesheet" href="/Layout/css/magnific-popup.css">
+    <link rel="stylesheet" href="/Layout/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/Layout/css/jquery-ui.css">
+    <link rel="stylesheet" href="/Layout/css/flaticon.css">
+    <link rel="stylesheet" href="/Layout/css/aos.css">
+    <link rel="stylesheet" href="/Layout/css/slick.css">
+    <link rel="stylesheet" href="/Layout/css/default.css">
+    <link rel="stylesheet" href="/Layout/css/style.css">
+    <link rel="stylesheet" href="/Layout/css/responsive.css">
+
+    <link rel=“canonical” href="https://osaremarket.ir/shop" />
+}
+@section Header{
+    @await Component.InvokeAsync("HeaderComponent")
+    }
+@section Nav{
+    @await Component.InvokeAsync("MenuComponent")
+    }
+<main>
+    <!-- breadcrumb-area -->
+    <div class="breadcrumb-area breadcrumb-bg">
+        <div class="container custom-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content">
+                        <h2 class="title">فروشگاه</h2>
+                        <nav aria-label="breadcrumb">
+                            @if (Model.ShopVM.CurrentGroup == null && string.IsNullOrEmpty(Model.ShopVM.Brand) && string.IsNullOrEmpty(Model.ShopVM.Tag))
+                            {
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+                                    <li class="breadcrumb-item"><a href="/shop">محصولات</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">صفحه @Model.ShopVM.CurrentPage</li>
+                                </ol>
+                            }
+                            else
+                            {
+                                @if (Model.ShopVM.CurrentGroup != null)
+                                {
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+                                        <li class="breadcrumb-item"><a href="/shop">محصولات</a></li>
+                                        <li class="breadcrumb-item"><a href="/Shop/?grName=@Model.ShopVM.CurrentGroup.EnTitle">@Model.ShopVM.CurrentGroup.Title</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">صفحه @Model.ShopVM.CurrentPage</li>
+                                    </ol>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.ShopVM.Brand))
+                                {
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+                                        <li class="breadcrumb-item"><a href="/shop">محصولات</a></li>
+                                        
+                                        <li class="breadcrumb-item active" aria-current="page">برند @Model.ShopVM.Brand</li>
+                                    </ol>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.ShopVM.Tag))
+                                {
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+                                        <li class="breadcrumb-item"><a href="/shop">محصولات</a></li>
+                                       
+                                        <li class="breadcrumb-item active" aria-current="page">برچسب @Model.ShopVM.Tag.Replace("-"," ")</li>
+                                    </ol>
+                                }
+                            }
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb-area-end -->
+    
+    <!-- shop-area -->
+    <section class="shop--area pt-50 pb-50">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-3 order-2 order-lg-0">
+                    <aside class="shop-sidebar">
+                        <div class="widget shop-widget">
+                            <div class="shop-widget-title">
+                                <h6 class="title">دسته بندی محصولات</h6>
+                            </div>
+                            <div class="shop-cat-list">
+                                <ul>
+                                    @foreach (var gr in Model.ShopVM.ProductGroups!.Where(w => w.IsActive).ToList())
+                                    {
+                                        if (Model.ShopVM.CurrentGroup != null)
+                                        {
+                                            if (Model.ShopVM.CurrentGroup.Id == gr.Id)
+                                            {
+                                                <li class="bg bg-success"><a class="text-white" href="/shop/?grName=@gr.EnTitle">@gr.Title (@gr.Products.Count)</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="/shop/?grName=@gr.EnTitle">@gr.Title (@gr.Products.Count)</a></li>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li><a href="/shop/?grName=@gr.EnTitle">@gr.Title (@gr.Products.Count) </a></li>
+                                        }
+
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        @if (Model.ShopVM.ProductsByTagNew!.Count() != 0)
+                        {
+                            <div class="widget shop-widget border p-1">
+                                <div class="shop-widget-title">
+
+                                    <h6 class="title">محصولات جدید</h6>
+                                </div>
+                                <div class="sidebar-product-list">
+                                    <ul>
+                                        @foreach (var Npr in Model.ShopVM.ProductsByTagNew!)
+                                        {
+                                            <li>
+                                                <div class="sidebar-product-thumb">
+                                                    <a href="/shop/d/@Npr.EnName"><img src="/images/products/@Npr.SmallImage2" alt="@Npr.Name"></a>
+                                                </div>
+                                                <div class="sidebar-product-content">
+                                                    <div class="rating">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                    </div>
+                                                    <h5><a href="/shop/d/@Npr.EnName">@Npr.Name @Npr.Name</a></h5>
+                                                    <span>@Npr.Price.GetValueOrDefault().ToString("N0") @Model.ShopVM.Currency</span>
+                                                </div>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                        @if (Model.ShopVM.Brands!.Count() != 0)
+                        {
+                            <div class="widget shop-widget border p-1">
+                                <div class="shop-widget-title">
+                                    <h6 class="title">برندها</h6>
+                                </div>
+                                <div class="shop-cat-list">
+                                    <ul>
+                                        @foreach (var br in Model.ShopVM.Brands!)
+                                        {
+                                            @if (Model.ShopVM.Brand == br)
+                                            {
+                                                <li class="bg bg-success"><a class="text-white" href="/Shop/?brand=@br">@br</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="/Shop/?brand=@br">@br</a></li>
+                                            }
+                                            
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                    </aside>
+                </div>
+                <div class="col-9">
+                    @if (Model.ShopVM.StorePageBanner != null)
+                    {
+                        <div class="shop-discount-area" style="background-image: url(../images/bg/@Model.ShopVM.StorePageBanner.Image);">
+                            <div class="discount-content shop-discount-content">
+                                @if (!string.IsNullOrEmpty(Model.ShopVM.StorePageBanner.Text1))
+                                {
+                                    <span>@Model.ShopVM.StorePageBanner.Text1</span>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.ShopVM.StorePageBanner.Text2))
+                                {
+                                    <h4 class="title">@Model.ShopVM.StorePageBanner.Text2</h4>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.ShopVM.StorePageBanner.Text3))
+                                {
+                                    <p>@Model.ShopVM.StorePageBanner.Text3</p>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.ShopVM.StorePageBanner.LinkUrl))
+                                {
+                                    if (string.IsNullOrEmpty(Model.ShopVM.StorePageBanner.LinkText))
+                                    {
+                                        <a href="@Model.ShopVM.StorePageBanner.LinkUrl" class="btn rounded-btn">@Model.ShopVM.StorePageBanner.LinkText</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Model.ShopVM.StorePageBanner.LinkUrl" class="btn rounded-btn">کلیک کنید</a>
+                                    }
+                                }                                
+                            </div>
+                        </div>
+                    }
+                    
+                   @* <div class="shop-top-meta mb-30">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-7">
+                                <div class="shop-top-left">
+                                    <ul>
+                                        @{
+                                            int stN = ((Model.ShopVM.CurrentPage - 1) * Model.ShopVM.PageCap) + 1;
+                                            int etN = stN + Model.ShopVM.PageCap - 1;
+                                        }
+                                        <li>نمایش @stN تا @etN از @Model.ShopVM.TotalProducts نتیجه</li>
+                                    </ul>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>*@
+                    <div class="shop-products-wrap">
+                        <div class="row justify-content-center">
+                            @foreach (var pr in Model.ShopVM.Products!.ToList())
+                            {
+                                (int price, int netPrice, int discount, int percent, string comment) = await _storeService.GetNetPriceandDiscountOfProductAsync(pr.Id);
+
+                                bool exist = await _storeService.ExistProductInWareHouseAsync(pr.Id);
+                                <div class="col-xl-3 col-md-4 col-sm-6">
+                                    <div class="sp-product-item mb-20">
+                                        <div class="sp-product-thumb">
+                                            @if (percent != 0)
+                                            {
+                                                <span class="batch discount">@percent %</span>
+                                            }
+                                            @if (!string.IsNullOrEmpty(pr.Label))
+                                            {
+                                                <span class="batch-label zlabel">@pr.Label</span>
+                                            }
+                                            <a href="/shop/d/@pr.EnName"><img src="/images/products/@pr.SmallImage1" alt="@pr.Name"></a>
+                                        </div>
+                                        <div class="sp-product-content">
+                                            <div class="rating">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                            <h6 class="title"><a href="/shop/d/@pr.EnName">@pr.Name</a></h6>
+                                            @if (exist)
+                                            {
+                                                <span class="product-status">موجود در انبار</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="product-status-danger">پایان موجودی</span>
+                                            }                                            
+                                            <p class="mt-2">@netPrice.ToString("N0") &ensp; @Model.ShopVM.Currency</p>
+                                            <div class="sp-cart-wrap">
+                                                <a href="/shop/d/@pr.EnName" class="btn  rounded">مشاهده</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            
+                        </div>
+                    </div>
+                    <div class="pagination-wrap">
+                        <ul>
+                            @if (Model.ShopVM.CurrentPage > 1)
+                            {
+                                int bPage = Model.ShopVM.CurrentPage - 1;
+                                <li class="prev"><a href="/Shop?pageN=@bPage"><span>&rArr;</span></a></li>
+                            }
+                            @for (int pg = 1; pg <= Model.ShopVM.TotalPages; pg++)
+                            {
+                                if (pg == Model.ShopVM.CurrentPage)
+                                {
+                                    @if (Model.ShopVM.CurrentGroup == null)
+                                    {
+                                        <li class="active"><a href="/Shop?pageN=@pg">@pg</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="active"><a href="/Shop?pageN=@pg&&grName=@Model.ShopVM.CurrentGroup.EnTitle">@pg</a></li>
+                                    }
+                                }
+                                else
+                                {
+                                    @if (Model.ShopVM.CurrentGroup == null)
+                                    {
+                                        <li><a href="/Shop?pageN=@pg">@pg</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="/Shop?pageN=@pg&&grName=@Model.ShopVM.CurrentGroup.EnTitle">@pg</a></li>
+                                    }
+                                }
+                            }
+                            @if (Model.ShopVM.CurrentPage < Model.ShopVM.TotalPages)
+                            {
+                                int nPage = Model.ShopVM.CurrentPage + 1;
+                                <li class="next"><a href="/Shop?pageN=@nPage"><span>&lArr;</span></a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- shop-area-end -->
+</main>
+@section Footer{
+    @await Component.InvokeAsync("FooterComponent")
+    }
+@section JsRefs{
+    <script src="~/Layout/js/vendor/jquery-3.6.0.min.js"></script>    
+    <script src="/Layout/js/bootstrap.min.js"></script>
+    <script src="/Layout/js/isotope.pkgd.min.js"></script>
+    <script src="/Layout/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/Layout/js/jquery.magnific-popup.min.js"></script>
+    <script src="/Layout/js/jquery.countdown.min.js"></script>
+    <script src="/Layout/js/jquery-ui.min.js"></script>
+    <script src="/Layout/js/slick.min.js"></script>
+    <script src="/Layout/js/ajax-form.js"></script>
+    <script src="/Layout/js/wow.min.js"></script>
+    <script src="/Layout/js/aos.js"></script>
+    <script src="/Layout/js/plugins.js"></script>
+    <script src="/Layout/js/main.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    }

@@ -1,0 +1,229 @@
+﻿@model DataLayer.Entities.Store.Cart
+@using Core.Convertors;
+@using Core.Services.Interfaces;
+@inject IStoreService _storeService
+@{
+    ViewData["Title"] = "جزئیات سفارش";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">جزئیات سفارش</h1>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-5 col-xs-12">
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </dt>
+                <dd class="col-sm-8">
+                    @Model.CreatedDate.ToShamsiN_WithTime()
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.DedicatedCode)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.DedicatedCode)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.UserId)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.UserId)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CheckOut)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CheckOut)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.PaymentDate)
+                </dt>
+                <dd class="col-sm-8">
+                    @Model.PaymentDate.ToShamsiN_WithTime()
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.DiscountCoupen)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.DiscountCoupen)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.IsActive)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Currency)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Currency)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.BuyerName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.BuyerName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.BuyerFamily)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.BuyerFamily)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.BuyerCellphone)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.BuyerCellphone)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.RecipientIsBuyer)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.RecipientIsBuyer)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.RecipientName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.RecipientName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.RecipientFamily)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.RecipientFamily)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.RecipientPhone)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.RecipientPhone)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.StateName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.StateName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CountyName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CountyName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.PostalCode)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.PostalCode)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.PaymentofFareDuringDelivery)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.PaymentofFareDuringDelivery)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ShippingByTipax)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ShippingByTipax)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ShippingBySnapp)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ShippingBySnapp)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ShippingByPishtazPost)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ShippingByPishtazPost)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Freight)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Freight)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Comment)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Comment)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CartTotal)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CartTotal)
+                </dd>
+
+            </dl>
+        </div>
+        <div class="col-md-7 col-xs-12">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h4 class="text-xs-center alert alert-info">جزئیات سفارش - @Model.Currency</h4>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th class="text-xs-center align-middle p-0">#</th>
+                            <th class="text-xs-center align-middle p-0">نام کالا</th>
+                            <th class="text-xs-center align-middle p-0">قیمت</th>
+                            <th class="text-xs-center align-middle p-0">قیمت خالص</th>
+                            <th class="text-xs-center align-middle p-0">تخفیف</th>
+                            <th class="text-xs-center align-middle p-0">تعداد</th>
+                            <th class="text-xs-center align-middle p-0">جمع</th>
+                        </tr>
+                        @foreach (var item in Model.CartItems)
+                        {
+                            int rad = 1;
+                            DataLayer.Entities.Store.ProductItem? productItem = null;
+                            if (item.ProductItemId != null)
+                            {
+                                productItem = await _storeService.GetProductItemByIdAsync(item.ProductItemId.Value);
+                            }
+                            <tr>
+                                <td class="text-xs-center align-middle p-0">@rad</td>
+                                <td class="text-xs-center align-middle p-0">@productItem?.Name</td>
+                                <td class="text-xs-center align-middle p-0">@item.Price.ToString("N0")</td>
+                                <td class="text-xs-center align-middle p-0">@item.NetPrice.ToString("N0")</td>
+                                <td class="text-xs-center align-middle p-0">@item.Discount.GetValueOrDefault().ToString("N0")</td>
+                                <td class="text-xs-center align-middle p-0">@item.Quantity</td>
+                                <td class="text-xs-center align-middle p-0">
+                                    @{
+                                        int rowSum = item.Quantity * item.NetPrice;
+                                    }
+                                    @rowSum.ToString("N0")
+                                </td>
+
+                            </tr>
+                            
+                        }
+                        <tr>
+                            <td class="text-xs-center align-middle" colspan="6">جمع کل</td>
+                            <td class="text-xs-center align-middle">@Model.CartTotal.GetValueOrDefault().ToString("N0")</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

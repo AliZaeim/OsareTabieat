@@ -1,0 +1,121 @@
+﻿@model Core.DTOs.General.BestDealForViewVM
+@using Core.Services.Interfaces;
+@inject IStoreService _storeService
+@{
+    DataLayer.Entities.Supplementary.SiteInfo siteInfo = await _storeService.GetLastSiteInfo();
+    string currency = "ریال";
+    if (siteInfo != null)
+    {
+        currency = siteInfo.SiteCurrency ?? "ریال";
+    }
+    bool Sshow = false;
+    bool Eshow = false;
+}
+@if (Model != null)
+{
+    @if (Model.BestDeal != null)
+    {
+        if (Model.BestDeal.EndDate.HasValue)
+        {
+            if (Model.BestDeal!.StartDate.HasValue)
+            {
+                if (DateTime.Now.Date >= Model.BestDeal!.StartDate.Value.Date)
+                {
+                    Sshow = true;
+                }
+            }
+            if (DateTime.Now.Date <= Model.BestDeal!.EndDate.Value.Date)
+            {
+                Eshow = true;
+            }
+        }
+
+    }
+    @if (Sshow && Eshow)
+    {
+        <section class="pt-60 pb-80">
+            <div class="container">
+                @if (Model.BestDeal != null)
+                {
+                    <div class="row justify-content-center">
+                        <div class="col-xl-7 col-lg-9">
+                            <div class="best-deal-top-wrap">
+                                <div class="bd-section-title">
+                                    <h3 class="title">@Model.BestDeal!.Title</h3>
+                                    <p>@Model.BestDeal!.Text</p>
+                                </div>
+                                @if (Model.BestDeal!.EndDate.HasValue)
+                                {
+                                    DateTime dateTime = (DateTime)Model.BestDeal.EndDate.Value;
+                                    int year = dateTime.Year;
+                                    int month = dateTime.Month;
+                                    int day = dateTime.Day;
+                                    string dt = string.Format("{0}/{1}/{2}", month, day, year);
+
+                                    <div class="coming-time" data-sdate="@Model.BestDeal.StartDate" data-countdown="@dt"></div>
+
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="best-sellers-products">
+                    <div class="row justify-content-center">
+                        @foreach (var pr in Model.Products!.ToList())
+                        {
+                            (int price,int netPrice, int discount, int percent,string comment) = await _storeService.GetNetPriceandDiscountOfProductItemAsync(pr.Id);
+                            bool exist = await _storeService.ExistProductInWareHouseAsync(pr.Id);
+                            <div class="col-xl-3 col-md-4 col-sm-6">
+                                <div class="sp-product-item mb-20">
+                                    <div class="sp-product-thumb">
+                                        @if (percent != 0)
+                                        {
+                                            <span class="batch discount">@percent %</span>
+                                        }
+                                        @if (!string.IsNullOrEmpty(pr.Label))
+                                        {
+                                            <span class="batch-label zlabel">@pr.Label</span>
+                                        }
+
+                                        <a href="/shop/d/@pr.EnName"><img src="/images/products/@pr.SmallImage1" alt="@pr.Name"></a>
+                                    </div>
+                                    <div class="sp-product-content">
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <h6 class="title"><a href="/shop/d/@pr.EnName">@pr.Name</a></h6>
+                                        @if (exist)
+                                        {
+                                            <span class="product-status">موجود در انبار</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="product-status-danger">پایان موجودی</span>
+                                        }
+                                        <p class="mt-2">@price.ToString("N0") &ensp; @currency</p>
+                                        <div class="sp-cart-wrap">
+                                            <a href="/shop/d/@pr.EnName" class="btn  rounded">مشاهده کالا</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        }
+
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </section>
+    }
+
+}

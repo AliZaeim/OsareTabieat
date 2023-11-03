@@ -1,0 +1,224 @@
+﻿@model Core.DTOs.General.SliderBanner
+@{
+    int? bannerCount = Model.BannerNextSliders.Where(w => w.BannerNextBase!.BannerNextBase_IsActive).Count();
+    string? st = Model.BannerNextSliders?.FirstOrDefault()?.BannerNextBase?.BannerNextBase_ShowingType;
+}
+<section class="slider-area" data-background="/Layout/img/bg/slider_area_bg.jpg">
+    <div class="container custom-container">
+        <div class="row">
+            <div class="col-12 justify-content-center align-self-center @((bannerCount != 0)? "col-lg-7":"col-lg-12")">
+                <div class="slider-active align-middle">
+                    @foreach (var slide in Model.Sliders)
+                    {
+                        <div class="single-slider slider-bg" data-background="/images/sliders/@slide.Image">
+                            <div class="slider-content">
+                                @if (!string.IsNullOrEmpty(slide.Text1))
+                                {
+                                    <h5 class="@slide.Text1Class @slide.Text1Dir" data-animation="@slide.Text1DataAnimation" data-delay="@slide.Text1DataDelay">@slide.Text1</h5>
+                                }
+                                @if (!string.IsNullOrEmpty(slide.Text2))
+                                {
+                                    <h2 class="@slide.Text2Class @slide.Text2Dir" data-animation="@slide.Text2DataAnimation" data-delay="@slide.Text2DataDelay">@slide.Text2</h2>
+                                }
+                                @if (!string.IsNullOrEmpty(slide.Text3))
+                                {
+                                    <p class="@slide.Text3Class @slide.Text3Dir" data-animation="@slide.Text1DataAnimation" data-delay="@slide.Text3DataDelay">@slide.Text3</p>
+                                }
+                                @if (!string.IsNullOrEmpty(slide.LinkUrl))
+                                {
+                                    string lnkClass = "btn rounded-btn text-center";
+                                    if (!string.IsNullOrEmpty(slide.LinkClass))
+                                    {
+                                        lnkClass = slide.LinkClass;
+                                    }
+                                    <a href="@slide.LinkUrl" class="@lnkClass" data-animation="@slide.LinkDataAnimation" data-delay="@slide.LinkDataDelay">@slide.LinkText</a>
+                                }
+
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            @if (bannerCount.GetValueOrDefault() != 0)
+            {
+                @if (bannerCount.GetValueOrDefault() == 1)
+                {
+                    var banner = Model.BannerNextSliders!.FirstOrDefault();
+
+                    <div class="col-12 col-lg-5 justify-content-center ">
+                        <div class="slider-banner-img">
+                            <a href="@banner?.Link"><img width="596" height="490" src="/images/banners/@banner?.Image" alt="@banner?.Title"></a>
+                        </div>
+                    </div>
+                }
+                @if (st == "2h")
+                {
+                    var banner1 = Model.BannerNextSliders?.OrderBy(x => x.Priority).FirstOrDefault();
+                    var banner2 = Model.BannerNextSliders?.OrderBy(x => x.Priority).Skip(1).Take(1).FirstOrDefault();
+                    <div class="col-12 col-lg-5 justify-content-center align-self-center">
+
+                        <div class="row">
+                            <div class="col-12 ">
+                                <div class="slider-banner-img mb-20">
+                                    <a href="@banner1?.Link"><img height="235" class="w-100" src="/images/banners/@banner1?.Image" alt="@banner1?.Title"></a>
+                                </div>
+
+                            </div>
+                            <div class="col-12 ">
+                                <div class="slider-banner-img">
+                                    <a href="@banner2?.Link"><img height="235" class="w-100" src="/images/banners/@banner2?.Image" alt="@banner2?.Title"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (st == "2v")
+                {
+                    var banner1 = Model.BannerNextSliders?.OrderBy(x => x.Priority).FirstOrDefault();
+                    var banner2 = Model.BannerNextSliders?.OrderBy(x => x.Priority).Skip(1).Take(1).FirstOrDefault();
+                    <div class="col-12 col-lg-5 justify-content-center align-self-center">
+
+                        <div class="row">
+                            <div class="col-6 ">
+                                <div class="slider-banner-img mb-20">
+                                    <a href="@banner1?.Link"><img height="490" width="288" src="/images/banners/@banner1?.Image" alt="@banner1?.Title"></a>
+                                </div>
+
+                            </div>
+                            <div class="col-6 ">
+                                <div class="slider-banner-img">
+                                    <a href="@banner2?.Link"><img height="490" width="288" src="/images/banners/@banner2?.Image" alt="@banner2?.Title"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (st == "l1r2h")
+                {
+                    var banner1 = Model.BannerNextSliders?.OrderBy(x => x.Priority).FirstOrDefault();
+                    var banner2 = Model.BannerNextSliders?.OrderBy(x => x.Priority).Skip(1).Take(1).FirstOrDefault();
+                    var banner3 = Model.BannerNextSliders?.OrderBy(x => x.Priority).Skip(2).Take(1).FirstOrDefault();
+                    <div class="col-12 col-lg-3">
+
+                        <div class="slider-banner-img mb-20">
+                            <a href="@banner1?.Link"><img class="w-100" height="235" src="/images/banners/@banner1?.Image" alt="@banner1?.Title"></a>
+                        </div>
+                        <div class="slider-banner-img">
+                            <a href="@banner2?.Link"><img class="w-100" height="235" src="/images/banners/@banner2?.Image" alt="@banner2?.Title"></a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-2">
+                        <div class="slider-banner-img">
+                            <a href="@banner3?.Link"><img height="490" class="w-100" src="/images/banners/@banner3?.Image" alt="@banner3?.Title"></a>
+                        </div>
+                    </div>
+                }
+                @if (st == "r1l2h")
+                {
+                    var banner1 = Model.BannerNextSliders?.OrderBy(x => x.Priority).FirstOrDefault();
+                    var banner2 = Model.BannerNextSliders?.OrderBy(x => x.Priority).Skip(1).Take(1).FirstOrDefault();
+                    var banner3 = Model.BannerNextSliders?.OrderBy(x => x.Priority).Skip(2).Take(1).FirstOrDefault();
+                    <div class="col-12 col-lg-2">
+                        <div class="slider-banner-img">
+                            <a href="@banner1?.Link"><img height="490" class="w-100" src="/images/banners/@banner1?.Image" alt="@banner1?.Title"></a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-3">
+
+                        <div class="slider-banner-img mb-20">
+                            <a href="@banner2?.Link"><img class="w-100" height="235" src="/images/banners/@banner2?.Image" alt="@banner2?.Title"></a>
+                        </div>
+                        <div class="slider-banner-img">
+                            <a href="@banner3?.Link"><img class="w-100" height="235" src="/images/banners/@banner3?.Image" alt="@banner3?.Title"></a>
+                        </div>
+                    </div>
+
+                }
+                @if (st == "t2b1")
+                {
+                    var banner1 = Model.BannerNextSliders?.OrderBy(x => x.Priority).FirstOrDefault();
+                    var banner2 = Model.BannerNextSliders?.OrderBy(x => x.Priority).Skip(1).Take(1).FirstOrDefault();
+                    var banner3 = Model.BannerNextSliders?.OrderBy(x => x.Priority).Skip(2).Take(1).FirstOrDefault();
+                    <div class="col-lg-5 col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="slider-banner-img col-lg-6 mb-20">
+                                        <a href="@banner1?.Link"><img height="235" class="w-100" src="/images/banners/@banner1?.Image" alt="@banner1?.Title"></a>
+                                    </div>
+                                    <div class="slider-banner-img col-lg-6">
+                                        <a href="@banner2?.Link"><img height="235" class="w-100" src="/images/banners/@banner2?.Image" alt="@banner2?.Title"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="slider-banner-img">
+                                    <a href="@banner3?.Link"><img height="235" class="w-100" src="/images/banners/@banner3?.Image" alt="@banner3?.Title"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (st == "t1b2")
+                {
+                    var banner1 = Model.BannerNextSliders?.OrderBy(x => x.Priority).FirstOrDefault();
+                    var banner2 = Model.BannerNextSliders?.OrderBy(x => x.Priority).Skip(1).Take(1).FirstOrDefault();
+                    var banner3 = Model.BannerNextSliders?.OrderBy(x => x.Priority).Skip(2).Take(1).FirstOrDefault();
+                    <div class="col-lg-5 col-12">
+                        <div class="row">
+                            <div class="col-12 mb-20">
+                                <div class="slider-banner-img">
+                                    <a href="@banner1?.Link"><img height="235" class="w-100" src="/images/banners/@banner1?.Image" alt="@banner1?.Title"></a>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="slider-banner-img col-lg-6 ">
+                                        <a href="@banner2?.Link"><img height="235" class="w-100" src="/images/banners/@banner2?.Image" alt="@banner2?.Title"></a>
+                                    </div>
+                                    <div class="slider-banner-img col-lg-6">
+                                        <a href="@banner3?.Link"><img height="235" class="w-100" src="/images/banners/@banner3?.Image" alt="@banner3?.Title"></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+                @if (st == "four")
+                {
+                    var banner1 = Model.BannerNextSliders?.OrderBy(x => x.Priority).FirstOrDefault();
+                    var banner2 = Model.BannerNextSliders?.OrderBy(x => x.Priority).Skip(1).Take(1).FirstOrDefault();
+                    var banner3 = Model.BannerNextSliders?.OrderBy(x => x.Priority).Skip(2).Take(1).FirstOrDefault();
+                    var banner4 = Model.BannerNextSliders?.OrderBy(x => x.Priority).Skip(3).Take(1).FirstOrDefault();
+                    <div class="col-12 col-lg-5 justify-content-center">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="slider-banner-img mb-20">
+                                    <a href="@banner1?.Link"><img height="235" class="w-100" src="/images/banners/@banner1?.Image" alt="@banner1?.Title"></a>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="slider-banner-img">
+                                    <a href="@banner2?.Link"><img height="235" class="w-100" src="/images/banners/@banner2?.Image" alt="@banner2?.Title"></a>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="slider-banner-img">
+                                    <a href="@banner3?.Link"><img height="235" class="w-100" src="/images/banners/@banner3?.Image" alt="@banner3?.Title"></a>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="slider-banner-img">
+                                    <a href="@banner4?.Link"><img height="235" class="w-100" src="/images/banners/@banner4?.Image" alt="@banner4?.Title"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+
+        </div>
+    </div>   
+</section>

@@ -1,0 +1,55 @@
+﻿@model DataLayer.Entities.Supplementary.BannerNextBase
+
+@{
+    ViewData["Title"] = "ثبت بسته بنر";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ثبت  بسته بنر</h1>
+
+<div class="container-fluid">
+    <div class="row">
+    <div class="offset-md-4 col-md-4 col-xs-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BannerNextBase_Title" class="control-label"></label>
+                <input asp-for="BannerNextBase_Title" class="form-control" />
+                <span asp-validation-for="BannerNextBase_Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BannerNextBase_ShowingType" class="control-label"></label>
+                <select asp-for="BannerNextBase_ShowingType" class="form-control">
+                    <option value="">انتخاب کنید</option>
+                    <option value="one">تکی</option>
+                    <option value="2h">2 تایی افقی</option>
+                    <option value="2v">2 تایی عمودی</option>
+                    <option value="l1r2h">سه تایی- 2 تا افقی راست و یکی چپ</option>
+                    <option value="r1l2h">سه تایی- یکی راست و 2 تا افقی چپ</option>
+                    <option value="t2b1">سه تایی- 2 تا بالا و یکی پائین</option>
+                    <option value="t1b2">سه تایی- یکی بالا و 2 تا پائین</option>
+                    <option value="four">4 تایی</option>
+                </select>
+                <span asp-validation-for="BannerNextBase_ShowingType" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="BannerNextBase_IsActive" /> @Html.DisplayNameFor(model => model.BannerNextBase_IsActive)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary col-md-12" />
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

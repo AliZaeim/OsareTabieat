@@ -1,0 +1,84 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.PageBannerItem>
+
+@{
+    ViewData["Title"] = ViewData["PTitle"];
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">@ViewData["PTitle"]</h1>
+@if (ViewData["pbanId"] != null)
+{
+    <p>
+        <a asp-action="Create" asp-route-pbId="@ViewData["pbanId"]" class="btn btn-primary">ثبت بنر</a>
+    </p>
+}
+else
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">ثبت بنر</a>
+    </p>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Text1)
+            </th>
+
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.ViewOrder)
+            </th>
+
+            <th class="text-xs-center align-middle">عملیات</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.GroupBy(g => g.PageBanner).ToList())
+        {
+            <tr>
+                <td class="text-xs-center text-white align-middle bg bg-info" colspan="6">بسته : @item.Key?.Title</td>
+            </tr>
+            @foreach (var itm in item.OrderBy(x => x.ViewOrder).ToList())
+            {
+                <tr>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => itm.Title)
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => itm.Text1)
+                    </td>
+
+                    <td class="text-xs-center align-middle">
+                        <img src="/images/pagebanners/@itm.Image" width="50" height="50">
+                    </td>
+                    <td class="text-xs-center align-middle">
+                        @Html.DisplayFor(modelItem => itm.ViewOrder)
+                    </td>
+
+                    <td class="text-xs-center align-middle">
+
+                        <a asp-action="Edit" asp-route-id="@itm.Id">ویرایش</a> |
+                        <a asp-action="Details" asp-route-id="@itm.Id">جزئیات</a> |
+                        <a asp-action="Delete" asp-route-id="@itm.Id">حذف</a>
+                    </td>
+                </tr>
+
+            }
+
+        }
+    </tbody>
+</table>
+<div>
+
+    <a asp-action="Index" asp-controller="PageBanners">بسته های بنر</a>
+
+
+</div>

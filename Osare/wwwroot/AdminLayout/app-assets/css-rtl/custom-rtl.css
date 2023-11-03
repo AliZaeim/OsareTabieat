@@ -1,0 +1,155 @@
+.main-menu .navigation li > a > i, .main-menu .dropdown-menu i, .main-menu .dropdown-user > a > i, .main-menu .navigation > li > a > i {
+    float: right;
+}
+
+.dropdown-user.nav-item i {
+    float: right;
+}
+
+.menu-expanded .form-group i {
+    float: inherit;
+}
+
+.form-control-position i {
+    top: 25%;
+    position: absolute;
+    right: 25%;
+}
+
+.ui-widget-icon-block {
+    right: 50%;
+}
+.zm-t-1{
+    margin-top:1px;
+}
+.zm-t-2 {
+    margin-top: 2px;
+}
+
+.round-button {
+    width: 100%;
+}
+
+.round-button-circle {
+    width: 100%;
+    height: 0;
+    padding-bottom: 80%;
+    border-radius: 5%;
+    border: 2px solid #cfdcec;    
+    overflow: hidden;
+    background: #672f63;     
+    box-shadow: 5px 5px 10px;
+}
+
+    .round-button-circle:hover {
+        background: #30588e;
+    }
+
+.round-button a {
+    display: block;
+    float: right;
+    width: 100%;
+    padding-top: 30%;
+    padding-bottom: 50%;
+    line-height: 1em;
+    margin-top: -0.5em;
+    text-align: center;
+    color: #e2eaf3;
+    
+    font-size: 1.2em;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.fs-40{
+    font-size : 40px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+    right: 3rem;
+}
+
+.btn i[class^='icon-'], .btn i[class*=' icon-'] {
+    line-height: 1.25rem;
+}
+
+code[class*='language-'], pre[class*='language-'] {
+    direction: ltr;
+}
+
+@media print {
+    code[class*='language-'], pre[class*='language-'] {
+        text-shadow: none;
+    }
+}
+
+#content-body {
+    min-height: 78vh;
+}
+
+.ztext-violet {
+    color: #6d2333;
+}
+
+.ztext-blue {
+    color: #2c1970;
+}
+.ztext-danger{
+    color : #ff0000;
+}
+.xtext-success{
+    color : #5ad66a;
+}
+.ztext-white-shadow {
+    text-shadow: 25px 25px 100px white, 0 0 25px white, 0 0 5px white, 0 0 5px white;
+}
+
+.ztext-violet-shadow {
+    text-shadow: 25px 25px 100px #6d2333, 0 0 25px #6d2333, 0 0 5px #6d2333, 0 0 5px #6d2333;
+}
+
+.zmargin_top9px {
+    margin-top: 9px;
+}
+.zmargin_top10mm {
+    margin-top: 10mm;
+}
+
+.requried-danger {
+    color: red;
+    font-size: 18px;
+    font-weight: 700
+}
+.value-body {
+    background-color: #fff;
+    -moz-box-shadow: 0 10px 20px 0 rgba(0,0,0,.09);
+    -webkit-box-shadow: 0 10px 20px 0 rgba(0,0,0,.09);
+    box-shadow: 0 10px 20px 0 rgba(0,0,0,.09);
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+}
+.ztext-black{
+    color : black;
+}
+.zpt-2{
+    padding-top:1mm;
+}
+.font-size-samll{
+    font-size : small;
+}
+.font-size-large{
+    font-size:large;
+}
+.line-height-10{
+    line-height:10mm;
+}
+.zheight-300{
+    height:300px;
+    max-height:300px;
+}
+.zw100{
+    width:100%
+}

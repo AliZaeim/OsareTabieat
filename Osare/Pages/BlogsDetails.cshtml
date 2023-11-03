@@ -1,0 +1,213 @@
+﻿@page "/blog/d/{key?}"
+@using Core.Convertors;
+@model Web.Pages.BlogsDetailsModel
+@{
+    ViewData["Title"] = Model.Blog?.BlogPageTitle;
+}
+@section CssRefs{
+    <link rel="stylesheet" href="/Layout/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Layout/css/animate.min.css">
+    <link rel="stylesheet" href="/Layout/css/magnific-popup.css">
+    <link rel="stylesheet" href="/Layout/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/Layout/css/jquery-ui.css">
+    <link rel="stylesheet" href="/Layout/css/flaticon.css">
+    <link rel="stylesheet" href="/Layout/css/aos.css">
+    <link rel="stylesheet" href="/Layout/css/slick.css">
+    <link rel="stylesheet" href="/Layout/css/default.css">
+    <link rel="stylesheet" href="/Layout/css/style.css">
+    <link rel="stylesheet" href="/Layout/css/responsive.css">
+    <link rel="canonical" href="https://osaremarket.ir/blog/d/@Model.Blog?.BlogShortKey/" />
+}
+@section Header{
+    @await Component.InvokeAsync("HeaderComponent")
+    }
+@section Nav{
+    @await Component.InvokeAsync("MenuComponent")
+    }
+<main>
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb-area breadcrumb-bg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-7 col-lg-9">
+                    <div class="breadcrumb-content">
+                        <h2 class="title">جزئیات وبلاگ</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">صفحه نخست</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">@Model.Blog?.BlogTitle</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+    <!-- blog-details-area -->
+    <section class="blog-details-area blog-gray-bg">
+        <div class="container">
+            <div class="container-inner-wrap">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-md-10">
+                        <div class="standard-blog-item mb-50">
+                            <div class="blog-thumb">
+                                <img src="/img/blog/blog_thumb01.jpg" alt="">
+                            </div>
+                            <div class="standard-blog-content blog-details-content">
+                                <h1 class="title">@Model.Blog!.BlogTitle</h1>
+                                <ul class="standard-blog-meta">
+                                    <li><a href="#"><i class="far fa-user"></i>@Model.Blog.Author</a></li>
+                                    <li><a href="#"><i class="far fa-calendar"></i>@Model.Blog.BlogDate.ToShamsiN()</a></li>
+                                    <li><a href="#"><i class="far fa-comment-alt"></i>0 دیدگاه</a></li>
+                                </ul>
+                                @Html.Raw(Model.Blog.BlogText)
+                                @if (!string.IsNullOrEmpty(Model.Blog.BlogImageInBlogDetails))
+                                {
+                                    <div class="blog-details-img">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <img src="/images/blogs/@Model.Blog.BlogImageInBlogDetails" alt="@Model.Blog.BlogTags">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+
+
+                            </div>
+                        </div>
+                        <div class="avatar-post mt-50 mb-50">
+                            <div class="post-avatar-img">
+                                <img src="/img/blog/post_avatar_img.png" alt="img">
+                            </div>
+                            <div class="post-avatar-content">
+                                <h5>فلان فلانی نسب</h5>
+                                <p>تبدیل به یک داستان مصاحبه می شود که می تواند کاربران را درگیر کند. طراحان اوول دارند تا داستان را جذاب تر کنند.</p>
+                                <div class="blog-details-social">
+                                    <ul>
+                                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blog-next-prev">
+                            <ul>
+                                <li class="blog-prev">
+                                    <a href="#"><img src="/Layout/img/icon/right_arrow.png" alt="img">نوشته قبلی</a>
+                                </li>
+                                <li class="blog-next">
+                                    <a href="#">نوشته بعدی <img src="/Layout/img/icon/left_arrow.png" alt="img"></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="comment-reply-box">
+                            <h5 class="title">ثبت یک دیدگاه</h5>
+                            <form action="#" class="comment-reply-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-grp">
+                                            <input type="text" placeholder="نام شما *">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-grp">
+                                            <input type="email" placeholder="ایمیل شما *">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-grp">
+                                    <textarea name="message" placeholder="دیدگاه شما ..."></textarea>
+                                </div>
+                                <div class="form-grp checkbox-grp">
+                                    <input type="checkbox" id="checkbox">
+                                    <label for="checkbox">آدرس ایمیل خود را نشان ندهید</label>
+                                </div>
+                                <button type="submit" class="btn rounded-btn">ثبت دیدگاه</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-10">
+                        <aside class="blog-sidebar">
+                            <div class="widget">
+                                <h4 class="widget-title">جستجو </h4>
+                                <div class="sidebar-search-form">
+                                    <form action="#">
+                                        <input type="text" placeholder="جستجو ...">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="widget">
+                                <h4 class="widget-title">نوشته های اخیر</h4>
+                                <div class="rc-post-list">
+                                    <ul>
+                                        @foreach (var Lb in Model.LastBlogs)
+                                        {
+                                            <li>
+                                                <div class="rc-post-thumb">
+                                                    <a href="/blog/d/@Lb.BlogShortKey"><img src="/images/blogs/@Lb.BlogImageInBlog" alt="@Lb.BlogTitle"></a>
+                                                </div>
+                                                <div class="rc-post-content">
+                                                    <h6 class="title"><a href="/blog/d/@Lb.BlogShortKey">@Lb.BlogTitle</a></h6>
+                                                    <span class="date"><i class="far fa-calendar-alt"></i>@Lb.BlogDate.ToShamsiN()</span>
+                                                </div>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="widget">
+                                <h4 class="widget-title">دسته بندیها</h4>
+                                <div class="sidebar-cat-list">
+                                    <ul>
+                                        @foreach (var gr in Model.BlogGroups)
+                                        {
+                                            <li><a href="/blogs/?grId=@gr.BlogGroupId">@gr.BlogGroupTitle <i class="fas fa-angle-double-left"></i></a></li>
+                                        }
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="widget">
+                                <h4 class="widget-title">برچسب ها</h4>
+                                <div class="sidebar-tag-list">
+                                    <ul>
+                                        @foreach (var tg in Model.Blog.TagsList)
+                                        {
+                                            <li><a href="/blogs/?tag=@tg.Trim()">@tg</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- blog-details-area-end -->
+</main>
+@section Footer{
+    @await Component.InvokeAsync("FooterComponent")
+    }
+@section JsRefs{
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="~/jquery/jquery.min.js"></script>
+    <script src="/Layout/js/bootstrap.min.js"></script>
+    <script src="/Layout/js/isotope.pkgd.min.js"></script>
+    <script src="/Layout/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/Layout/js/jquery.magnific-popup.min.js"></script>
+    <script src="/Layout/js/jquery.countdown.min.js"></script>
+    <script src="/Layout/js/jquery-ui.min.js"></script>
+    <script src="/Layout/js/slick.min.js"></script>
+    <script src="/Layout/js/ajax-form.js"></script>
+    <script src="/Layout/js/wow.min.js"></script>
+    <script src="/Layout/js/aos.js"></script>
+    <script src="/Layout/js/plugins.js"></script>
+    <script src="/Layout/js/main.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    }

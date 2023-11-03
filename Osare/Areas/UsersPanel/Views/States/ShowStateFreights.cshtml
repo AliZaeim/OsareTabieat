@@ -1,0 +1,47 @@
+﻿@model DataLayer.Entities.Supplementary.State
+
+@{
+    ViewData["Title"] = "لیست کرایه های استان " + Model.StateName;
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">لیست کرایه استان @Model.StateName</h1>
+
+<p>
+    <a asp-action="AddFreight" asp-route-StateId="@Model.StateId">ثبت کرایه جدید</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                وزن
+            </th>
+            <th class="text-xs-center align-middle">
+                کرایه
+            </th>
+
+            <th class="text-xs-center align-middle"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.StateFreights.OrderBy(x => x.Weight).ToList())
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Weight)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @item.Freight.GetValueOrDefault().ToString("N0")
+                </td>
+
+                <td class="text-xs-center align-middle">
+                    <a asp-action="EditStateFreight" asp-route-id="@item.Id">ویرایش</a> |
+                    <a asp-action="DeleteStateFreight" asp-route-staId="@item.Id">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>

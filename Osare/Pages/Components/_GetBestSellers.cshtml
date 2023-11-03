@@ -1,0 +1,158 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.Product>
+@using Core.Services.Interfaces;
+@inject IStoreService _storeService;
+@{
+    DataLayer.Entities.Supplementary.SiteInfo siteInfo = await _storeService.GetLastSiteInfo();
+    string currency = "ریال";
+    if (siteInfo != null)
+    {
+        currency = siteInfo.SiteCurrency ?? "ریال";
+    }
+}
+<section class="best-sellers-area pt-75">
+    <div class="container">
+        <div class="row align-items-end mb-50">
+            <div class="col-md-8 col-sm-9">
+                <div class="section-title">
+                    <span class="sub-title">پرفروش ترین ها</span>
+                    <h2 class="title">نمایش بهترین پیشنهادات</h2>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-3">
+                <div class="section-btn text-right text-md-left">
+                    <a href="/Shop" class="btn">نمایش همه</a>
+                </div>
+            </div>
+        </div>
+        <div class="best-sellers-products">
+            <div class="row justify-content-center">
+                @foreach (var pr in Model.ToList())
+                {
+                    (int price, int netPrice, int discount, int percent,string comment) = await _storeService.GetNetPriceandDiscountOfProductAsync(pr.Id);
+                    string type = string.Empty; int? objId = null;
+                    if (pr != null)
+                    {
+                        if (pr.ProductType == "bulk")
+                        {
+                            objId = pr.Id;
+                            type = "pr";
+                        }
+                        else
+                        {
+                            objId = pr.Id;
+                            type = "pritem";
+                        }
+                    }
+                    else
+                    {
+                        objId = pr!.Id;
+                        type = "pritem";
+                    }
+                    (bool exist, float rem) Res = await _storeService.ExistShopIteminWareHouse(type, objId.Value);
+                    <div class="col-xl-3 col-sm-6 col-md-4">
+                        <div class="sp-product-item">
+                            <div class="sp-product-thumb">
+                                @if (!string.IsNullOrEmpty(pr.Label) && Res.exist)
+                                {
+                                    <span class="batch">@pr.Label</span>
+                                }
+                                else
+                                {
+                                    if (discount != 0 && Res.exist)
+                                    {
+                                        if (percent != 0)
+                                        {
+                                            <span class="batch">@percent % تخفیف</span>
+                                        }
+
+                                    }
+                                }
+                                <a href="/shop/d/@pr.EnName"><img class="rounded" src="/images/products/@pr.BigImage" alt="@pr.BigImageAlt"></a>
+                            </div>
+                            <div class="sp-product-content">
+                                @*<div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            </div>*@
+                                <h6 class="title"><a href="/shop/d/@pr.EnName"><span>@pr.Name @pr.Brand</span></a></h6>
+                                <span>
+                                    @if (Res.exist)
+                                    {
+                                        <span class="product-status">موجود در انبار</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="product-status text-danger">پایان موجودی</span>
+                                    }
+
+                                </span>
+                                @if (Res.exist)
+                                {
+                                    <div class="disDiv">
+                                        @if (discount != 0)
+                                        {
+                                            <span class="fs-12">
+                                                تخفیف :@discount.ToString("N0") @currency
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="fs-12">
+                                                تخفیف : -
+                                            </span>
+                                        }
+
+                                    </div>
+
+                                    <div class="priceDiv">
+                                        @price.ToString("N0") <span class="fs-12">@currency</span>
+                                    </div>
+                                    <div class="cart-price">
+                                        @if (discount != 0)
+                                        {
+                                            <span><del>@pr.Price.GetValueOrDefault().ToString("N0")</del></span>
+                                        }
+                                        else
+                                        {
+                                            <span><del>xxxx</del></span>
+                                        }
+
+                                    </div>
+                                    <div class="sp-cart-wrap">
+                                        <div class="cart-plus-minus">
+                                            <input class="inpcount" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');" min="1" type="text" value="1">
+                                            <button data-pritemid="@pr.Id" class="cart-button  text-success">افزودن به سبد</button>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="disDiv">
+                                        <span class="fs-12">
+                                            xxxx
+                                        </span>
+                                    </div>
+                                    <div class="priceDiv">
+                                        xxxx
+                                    </div>
+                                    <div class="cart-price">
+                                        xxxx
+                                    </div>
+                                    <div class="sp-cart-wrap">
+                                        <div>
+                                            <input class="disableCartNumber" disabled min="1" type="text" value="***">
+                                            <button class="cart-button-dis text-success">افزودن به سبد</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

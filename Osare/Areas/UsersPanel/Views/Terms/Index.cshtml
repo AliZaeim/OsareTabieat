@@ -1,0 +1,43 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.Term>
+
+@{
+    ViewData["Title"] = "شرایط و ضوابط";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">شرایط و ضوابط</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">ثــبت</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.RegDate)
+            </th>
+            <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @Html.Raw(item.Text)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.RegDate)
+                </td>
+                <td class="text-xs-center align-middle">
+                    <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">جزئیات</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">حــذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

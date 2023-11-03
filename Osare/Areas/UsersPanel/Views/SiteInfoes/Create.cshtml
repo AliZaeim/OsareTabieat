@@ -1,0 +1,90 @@
+﻿@model DataLayer.Entities.Supplementary.SiteInfo
+
+@{
+    ViewData["Title"] = "ثبت اطلاعات سایت";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ثبت اطلاعات سایت</h1>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="offset-md-4 col-md-4 col-xs-12">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="WorkTime" class="control-label"></label>
+                    <input asp-for="WorkTime" class="form-control" />
+                    <span asp-validation-for="WorkTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone1" class="control-label"></label>
+                    <input asp-for="Phone1" class="form-control" />
+                    <span asp-validation-for="Phone1" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone2" class="control-label"></label>
+                    <input asp-for="Phone2" class="form-control" />
+                    <span asp-validation-for="Phone2" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mobile1" class="control-label"></label>
+                    <input asp-for="Mobile1" class="form-control" />
+                    <span asp-validation-for="Mobile1" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mobile2" class="control-label"></label>
+                    <input asp-for="Mobile2" class="form-control" />
+                    <span asp-validation-for="Mobile2" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MainPageMessage" class="control-label"></label>
+                    <input asp-for="MainPageMessage" class="form-control" />
+                    <span asp-validation-for="MainPageMessage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AddressLink" class="control-label"></label>
+                    <input asp-for="AddressLink" class="form-control" />
+                    <span asp-validation-for="AddressLink" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SiteCurrency" class="control-label"></label>
+                    <input asp-for="SiteCurrency" class="form-control" />
+                    <span asp-validation-for="SiteCurrency" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FreeShippingValue" class="control-label"></label>
+                    <input asp-for="FreeShippingValue" class="form-control" />
+                    <span asp-validation-for="FreeShippingValue" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InstaLink" class="control-label"></label>
+                    <input asp-for="InstaLink" class="form-control" />
+                    <span asp-validation-for="InstaLink" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="WhatsUpLink" class="control-label"></label>
+                    <input asp-for="WhatsUpLink" class="form-control" />
+                    <span asp-validation-for="WhatsUpLink" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="ثبت" class="btn btn-primary col-xs-12" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

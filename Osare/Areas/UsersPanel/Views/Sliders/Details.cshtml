@@ -1,0 +1,126 @@
+﻿@model DataLayer.Entities.Supplementary.Slider
+
+@{
+    ViewData["Title"] = "جزئیات اسلایدر";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center align align-middle">جزئیات اسلایدر</h1>
+
+<div class="container-fluid">
+    
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+        <dd class = "col-sm-10">
+            <img src="/images/sliders/@Model.Image" width="100" height="100" />
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Text1)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Text1)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Text1Class)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Text1Class)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Text1DataAnimation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Text1DataAnimation)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Text1DataDelay)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Text1DataDelay)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Text2)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Text2)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Text2Class)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Text2Class)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Text2DataAnimation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Text2DataAnimation)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Text2DataDelay)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Text2DataDelay)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Text3)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Text3)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Text3Class)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Text3Class)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Text3DataAnimation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Text3DataAnimation)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Text3DataDelay)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Text3DataDelay)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkText)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LinkText)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkUrl)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LinkUrl)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkDataAnimation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LinkDataAnimation)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LinkDataDelay)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LinkDataDelay)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

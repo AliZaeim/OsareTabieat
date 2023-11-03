@@ -1,0 +1,152 @@
+﻿@model DataLayer.Entities.Store.ProductItem
+
+@{
+    ViewData["Title"] = "ثبت زیرمجموعه کالا";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+    string title = "ثبت زیرمجموعه برای کالای";
+    if (ViewData["ProductName"] != null)
+    {
+        title += " " + ViewData["ProductName"];
+    }
+}
+
+<h1 class="text-xs-center alert alert-info">@title</h1>
+<div class="container-fluid">
+    <div class="row">
+        <form asp-action="Create" class="mt-5" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="col-md-4 col-xs-12 form-group">
+                <div class="form-group">
+                    <label asp-for="ProductId" class="control-label"></label>
+                    <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId">
+                        <option value="">لطفا کالا را انتخاب کنید...</option>
+                    </select>
+                    <span asp-validation-for="ProductId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EnName" class="control-label"></label>
+                    <input asp-for="EnName" placeholder="کلمه ها با - از هم جوا شوند" class="form-control" />
+                    <span asp-validation-for="EnName" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label asp-for="Weight" class="control-label"></label>&ensp;<span>(kg)</span>
+                    <input asp-for="Weight" class="form-control" />
+                    <span asp-validation-for="Weight" class="text-danger"></span>
+                </div>
+                 <div class="form-group">
+                    <label asp-for="UnitofMeasure" class="control-label"></label>
+                    <select asp-for="UnitofMeasure" class="form-control">
+                        <option value="">لطفا واحد اندازه گیری را مشخص کنید</option>
+                        <option value="kg">کیلوگرم</option>
+                        <option value="litr">لیتر</option>
+                        <option value="number">عدد</option>
+                    </select>
+                    <span asp-validation-for="UnitofMeasure" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ValueBaseOnUoM" class="control-label"></label>&ensp;<span>(kg)</span>
+                    <input asp-for="ValueBaseOnUoM" class="form-control" />
+                    <span asp-validation-for="ValueBaseOnUoM" class="text-danger"></span>
+                </div>
+               
+                
+                
+            </div>
+            <div class="col-md-4 col-xs-12 form-group">
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PercentDiscount" class="control-label"></label>
+                    <input asp-for="PercentDiscount" type="number" class="form-control" />
+                    <span asp-validation-for="PercentDiscount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ValueDiscount" class="control-label"></label>
+                    <input asp-for="ValueDiscount" type="number" class="form-control" />
+                    <span asp-validation-for="ValueDiscount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Tags" class="control-label"></label>
+                    <input asp-for="Tags" class="form-control" />
+                    <span asp-validation-for="Tags" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MinimumInventory" class="control-label"></label>
+                    <input asp-for="MinimumInventory" type="number" class="form-control" />
+                    <span asp-validation-for="MinimumInventory" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BestSellRate" class="control-label"></label>
+                    <input asp-for="BestSellRate" class="form-control" />
+                    <span asp-validation-for="BestSellRate" class="text-danger"></span>
+                </div>                
+            </div>
+            <div class="col-md-4 col-xs-12 form-group">               
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="ShowAsPrice" /> @Html.DisplayNameFor(model => model.ShowAsPrice)
+                    </label>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    </label>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="AsBestSelling" /> @Html.DisplayNameFor(model => model.AsBestSelling)
+                    </label>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="ShowInMainPage" /> @Html.DisplayNameFor(model => model.ShowInMainPage)
+                    </label>
+                </div>
+               
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsSpecial" /> @Html.DisplayNameFor(model => model.IsSpecial)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Label" class="control-label"></label><span>حداکثر 10 حرف</span>
+                    <input asp-for="Label" class="form-control" />
+                    <span asp-validation-for="Label" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary offset-md-3 col-lg-6  col-xs-12" />
+            </div>
+        </form>
+    </div>
+</div>
+@if (ViewData["Pid"] == null)
+{
+    <div>
+        <a asp-action="Index">بازگشت</a>
+    </div>
+}
+else
+{
+    <div>
+        <a asp-action="Index" asp-controller="Products">بازگشت</a>
+    </div>
+}
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

@@ -1,0 +1,431 @@
+﻿@page
+@model Web.Pages.CheckoutModel
+@using Core.Services.Interfaces;
+@inject IStoreService _storeService
+@{
+    ViewData["Title"] = "صورتحساب";
+    string cur = "ریال";
+    cur = Model.CartDets.SiteInfo!.SiteCurrency?? "ریال";
+
+    int? Freeship = null;
+    if (Model.CartDets.SiteInfo != null)
+    {
+        Freeship = Model.CartDets.SiteInfo.FreeShippingValue;
+    }
+    int cartSum = Model.CartDets.CartItems!.Sum(x => x.NetPrice * x.Quantity);
+
+    float cartWT = Model.CartDets.CartItems!.Sum(x => x.Quantity);
+}
+@section CssRefs{
+    <link rel="stylesheet" href="/Layout/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Layout/css/animate.min.css">
+    <link rel="stylesheet" href="/Layout/css/magnific-popup.css">
+    <link rel="stylesheet" href="/Layout/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/Layout/css/jquery-ui.css">
+    <link rel="stylesheet" href="/Layout/css/flaticon.css">
+    <link rel="stylesheet" href="/Layout/css/aos.css">
+    <link rel="stylesheet" href="/Layout/css/slick.css">
+    <link rel="stylesheet" href="/Layout/css/default.css">
+    <link rel="stylesheet" href="/Layout/css/style.css">
+    <link rel="stylesheet" href="/Layout/css/responsive.css">
+}
+@section Header{
+    @await Component.InvokeAsync("HeaderComponent")
+    }
+@section Nav{
+    @await Component.InvokeAsync("MenuComponent")
+    }
+<main>
+
+    <!-- breadcrumb-area -->
+    <div class="breadcrumb-area breadcrumb-bg-two">
+        <div class="container custom-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">صفحه نخست</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">صورتحساب</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb-area-end -->
+    <!-- checkout-area -->
+    <div class="checkout-area pt-90 pb-90">
+        <div class="container">
+            @if (!User.Identity!.IsAuthenticated)
+            {
+                <div class="checkout-form-top">
+                    <p>قبلاً حساب کاربری دارید؟ <a href="/Login/Checkout">وارد شوید</a></p>
+                </div>
+            }
+            <form method="post" class="row justify-content-center">
+                <div class="col-md-7 col-xs-12">
+                    <div class="checkout-form-wrap">
+                        <div class="building-info-wrap">
+                            <h5 class="title">اطلاعات صورت حساب</h5>
+                            <h6 class="text-info w-100 border-bottom pb-20">خریدار</h6>
+                            <input type="hidden" asp-for="@Model.CartDets.CheckOutVM!.CartId" />
+                            <div class="row">
+                                <input type="hidden" asp-asp-for="@Model.CartDets.CheckOutVM!.CartId" />
+                                <div class="col-md-4 col-xs-12">
+                                    <label class="control-label" asp-for="@Model.CartDets.CheckOutVM.BuyerName"></label>
+                                    <input type="text" asp-for="@Model.CartDets.CheckOutVM!.BuyerName" class="form-control">
+                                    <span asp-validation-for="@Model.CartDets.CheckOutVM!.BuyerName" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4 col-xs-12">
+                                    <label class="control-label" asp-for="@Model.CartDets.CheckOutVM!.BuyerFamily"></label>
+                                    <input type="text" asp-for="@Model.CartDets.CheckOutVM!.BuyerFamily" class="form-control">
+                                    <span asp-validation-for="@Model.CartDets.CheckOutVM!.BuyerFamily" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4 col-xs-12">
+                                    <label class="control-label" asp-for="@Model.CartDets.CheckOutVM!.BuyerCellphone"></label>
+                                    <input type="text" asp-for="@Model.CartDets.CheckOutVM!.BuyerCellphone" class="form-control">
+                                    <span asp-validation-for="@Model.CartDets.CheckOutVM!.BuyerCellphone" class="text-danger"></span>
+                                </div>
+
+                                <div class="custom-control custom-checkbox mt-15">
+                                    <input type="checkbox" class="custom-control-input" asp-for="@Model.CartDets.CheckOutVM!.BuyerIsRecepient" id="bIsr">
+                                    <label class="custom-control-label" asp-for="@Model.CartDets.CheckOutVM!.BuyerIsRecepient" for="bIsr"></label>
+                                </div>
+                            </div>
+                            <div class="row " id="recpDiv" style="display:none">
+                                <h6 class=" text-info w-100 pt-20  border-bottom pb-20">تحویل گیرنده</h6>
+                                <div class="col-md-4 col-xs-12">
+                                    <label class="control-label" asp-for="@Model.CartDets.CheckOutVM!.RecepientName"></label>
+                                    <input type="text" asp-for="@Model.CartDets.CheckOutVM!.RecepientName" class="form-control">
+                                    <span asp-validation-for="@Model.CartDets.CheckOutVM!.BuyerName" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4 col-xs-12">
+                                    <label class="control-label" asp-for="@Model.CartDets.CheckOutVM!.RecepientFamily"></label>
+                                    <input type="text" asp-for="@Model.CartDets.CheckOutVM!.RecepientFamily" class="form-control">
+                                    <span asp-validation-for="@Model.CartDets.CheckOutVM!.RecepientFamily" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4 col-xs-12">
+                                    <label class="control-label" asp-for="@Model.CartDets.CheckOutVM!.RecepientCellphone"></label>
+                                    <input type="text" asp-for="@Model.CartDets.CheckOutVM!.RecepientCellphone" class="form-control">
+                                    <span asp-validation-for="@Model.CartDets.CheckOutVM!.RecepientFamily" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <h6 class=" text-info w-100 pt-20  border-bottom pb-20">اطلاعات پستی</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <select asp-for="@Model.CartDets.CheckOutVM!.StateId" id="stId" class="form-control zheight-50">
+                                        <option value="">استان را انتخاب کنید</option>
+                                        @foreach (var st in Model.CartDets.CheckOutVM!.States.ToList())
+                                        {
+                                            @*data - fr = "@st.Freight"*@
+                                            <option data-cur="@cur" data-pishpost="@st.StateFreights" value="@st.StateId">@st.StateName</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="@Model.CartDets.CheckOutVM!.StateId" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <select asp-for="@Model.CartDets.CheckOutVM!.CountyId" id="ctId" class="form-control zheight-50">
+                                        <option value="">شهرستان را انتخاب کنید</option>
+                                    </select>
+                                    <span asp-validation-for="@Model.CartDets.CheckOutVM!.CountyId" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="control-label" asp-for="@Model.CartDets.CheckOutVM!.Address"></label>
+                                    <input type="text" asp-for="@Model.CartDets.CheckOutVM!.Address" class="form-control">
+                                    <span asp-validation-for="@Model.CartDets.CheckOutVM!.Address" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="control-label" asp-for="@Model.CartDets.CheckOutVM!.PostalCode"></label>
+                                    <input type="text" asp-for="@Model.CartDets.CheckOutVM!.PostalCode" class="form-control">
+                                    <span asp-validation-for="@Model.CartDets.CheckOutVM!.PostalCode" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="control-label" asp-for="@Model.CartDets.CheckOutVM!.Comment"></label>&ensp;<span class="text-danger">(حداکثر 200 کاراکتر)</span>
+                                    <textarea type="text" rows="2" maxlength="200" asp-for="@Model.CartDets.CheckOutVM!.Comment" class="form-control"></textarea>
+                                    <span asp-validation-for="@Model.CartDets.CheckOutVM!.Comment" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @{
+                    float? TWeight = 0;
+
+                }
+                <div class="col-md-5 col-xs-12">
+                    <div class="shop-cart-total order-summary-wrap">
+                        <h3 class="title">خلاصه سفارش</h3>
+
+                        @foreach (var item in Model.CartDets!.CartItems!)
+                        {
+                            string title = string.Empty;
+                            string image = string.Empty; string Enname = string.Empty;
+                            if (item.ProductItemId == null)
+                            {
+                                title = item.Product?.FullName!;
+                                image = item.Product?.SmallImage2!;
+                                Enname = item.Product?.EnName!;
+                            }
+                            else
+                            {
+                                title = item.ProductItem!.Product?.FullName + " " + item.ProductItem!.Name;
+                                image = item.ProductItem.Product?.SmallImage2!;
+                                Enname = item.ProductItem.Product?.EnName!;
+                            }
+                            <div class="os-products-item">
+                                <div class="thumb">
+                                    <a href="shop-details.html"><img src="/images/products/@image" alt=""></a>
+                                </div>
+                                <div class="content">
+                                    <h6 class="title"><a href="/shop/d/@Enname">@title</a> </h6>
+                                    <span class="price">@item.Quantity * @item.NetPrice.ToString("N0") @cur</span>
+                                </div>
+                                @*<div class="remove">x</div>*@
+                            </div>
+                            if (item.ProductId != null)
+                            {
+                                TWeight += item.Quantity * item.Product?.Weight;
+                            }
+                            else if(item.ProductItemId != null)
+                            {
+                                TWeight += item.Quantity * item.ProductItem?.Weight;
+                            }
+                            
+                        }
+
+                        <div class="shop-cart-widget">
+
+                            <ul class="mb-20">
+                                <li class="sub-total font-weight-bold zfs-17 text-center">
+                                    <span>جمع</span>
+                                    <span id="ctrsum" data-crtsum="@cartSum">@cartSum.ToString("N0")</span> @cur
+                                </li>
+                                <li class="sub-total font-weight-bold zfs-17 text-center">
+                                    <span>وزن</span>
+
+                                    <span id="crtwt" data-crtweight="@TWeight">@TWeight</span> کیلو
+                                </li>
+
+                            </ul>
+                            <h5 class="title">شیوه ارسال</h5>
+                            <div class="payment-method-info">
+                                @if (cartSum >= Freeship.GetValueOrDefault())
+                                {
+
+                                    <div class="shop-check-wrap">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" @((cartSum >= Freeship.GetValueOrDefault())? "checked":"") class="custom-control-input" id="customCheck1">
+                                            <label class="custom-control-label" for="customCheck1">ارسال رایگان</label>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" data-cur="@cur" class="custom-control-input checkbox" asp-for="@Model.CartDets.CheckOutVM.PaymentofFareDuringDeliveryTipax" id="customCheck1">
+                                        <label class="custom-control-label text-danger" for="customCheck1" asp-for="@Model.CartDets.CheckOutVM.PaymentofFareDuringDeliveryTipax"></label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" data-cur="@cur" class="custom-control-input checkbox" disabled asp-for="@Model.CartDets.CheckOutVM.PaymentofFareDuringDeliverySnap" id="customCheck2">
+                                        <label class="custom-control-label text-danger" for="customCheck2" asp-for="@Model.CartDets.CheckOutVM.PaymentofFareDuringDeliverySnap"></label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" data-cur="@cur" class="custom-control-input  checkbox" disabled asp-for="@Model.CartDets.CheckOutVM.ShippingByPishtazPost" id="customCheck3">
+                                        <label class="custom-control-label text-danger" for="customCheck3" asp-for="@Model.CartDets.CheckOutVM.ShippingByPishtazPost"></label>&ensp;<span class="text-danger" id="chk3com">(امکان انتخاب بعد از مشخص شدن استان)</span>
+                                    </div>
+                                }
+                            </div>
+                            <div class="payment-terms">
+
+                                <input type="hidden" asp-for="@Model.CartDets.CheckOutVM.CartTotal" />
+                                <h4 class="title text-center">جــمع کل : <span id="TotalofCart">@cartSum.ToString("N0") @cur</span></h4>
+                            </div>
+                            <input type="submit" value="پرداخت نهایی" class="btn" />
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- checkout-area-end -->
+
+</main>
+@section Footer{
+    @await Component.InvokeAsync("FooterComponent")
+    }
+@section JsRefs{
+    <script src="~/Layout/js/vendor/jquery.min.js"></script>
+    <script src="~/Layout/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/Layout/js/isotope.pkgd.min.js"></script>
+    <script src="/Layout/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/Layout/js/jquery.magnific-popup.min.js"></script>
+    <script src="/Layout/js/jquery.countdown.min.js"></script>
+    <script src="/Layout/js/jquery-ui.min.js"></script>
+    <script src="/Layout/js/slick.min.js"></script>
+    <script src="/Layout/js/ajax-form.js"></script>
+    <script src="/Layout/js/wow.min.js"></script>
+    <script src="/Layout/js/aos.js"></script>
+    <script src="/Layout/js/plugins.js"></script>
+    <script src="/Layout/js/main.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            $("#stId").change(function () {
+                var vlu = $(this).val();
+                var covlue = $("#ctId").val();
+                var cartsum = $("#ctrsum").attr("data-crtsum");
+                var cur = $(this).attr("data-cur");
+                var wght = $("#crtwt").attr("data-crtweight");
+                if (vlu !== '') {
+                    $("#customCheck3").removeAttr("disabled");
+                    if (covlue !== "") {
+                        $("#customCheck2").removeAttr("disabled");
+                    }
+                    else {
+                        $("#customCheck2").attr("disabled", "disabled");
+                        $("#customCheck2").prop('checked', false);
+                    }
+                    $.ajax({
+                        url: "/Checkout?handler=FrCostofState",
+                        data: { stId: vlu, weight: wght },
+                        type: "GET",
+                        success: function (result) {
+                            var fr = parseInt(result.freight);
+                            var tot = parseInt(cartsum) + fr;
+                            var comm = "( کرایه : " + fr.toLocaleString("en-US") + " " + cur + " )";
+                            $("#chk3com").text(comm);
+                            //$("#chk3com").addClass('text-danger');
+
+                        },
+                        error: function () {
+
+                        }
+                    });
+                }
+                else {
+                    $("#customCheck3").attr("disabled", "disabled");
+                    $("#customCheck3").prop('checked', false);
+                    $("#customCheck2").attr("disabled", "disabled");
+                    $("#customCheck2").prop('checked', false);
+                    $("#chk3com").text("(امکان انتخاب بعد از مشخص شدن استان)");
+                }
+                var fr = 0; //$(this).find(':selected').attr("data-fr");
+                var cur = $(this).find(':selected').attr("data-cur");
+                var freight = "( " + fr + " ) " + cur;
+                $("#pishtazvalue").text(freight);
+                $("#customCheck3").attr("data-pishpost", fr);
+                $("#customCheck3").attr("data-cur", cur);
+                $.ajax({
+                    url: "/Checkout?handler=CountiesofState",
+                    data: { stId: vlu },
+                    type: "GET",
+                    success: function (result) {
+                        $("#ctId").find('option').not(':first').remove();
+                        jQuery.each(result, function (index, item) {
+                            var opt = "<option value='" + item.countyId + "'>" + item.countyName + "</option>";
+
+                            $("#ctId").append(opt);
+                        });
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            });
+            $("#ctId").change(function () {
+
+                var ctval = $(this).val();
+                var stval = $("#stId").val();
+                if (ctval !== '' && stval !== '') {
+                    if (ctval == '330') {
+                        $("#customCheck2").removeAttr("disabled");
+                    }
+                    else {
+                        $("#customCheck2").attr("disabled", "disabled");
+                        $("#customCheck2").prop('checked', false);
+                        if ($("#customcheck3").not(":checked").lenght)
+                        {
+                            $("#customCheck1").prop('checked', true);
+                        }
+                        
+                    }
+                }
+                else {
+
+                    $("#customCheck2").attr("disabled", "disabled");
+                    $("#customCheck2").prop('checked', false);
+                }
+                var fr = 0; //$(this).find(':selected').attr("data-fr");
+                var cur = $(this).find(':selected').attr("data-cur");
+                var freight = "( " + fr + " ) " + cur;
+
+            });
+            $("#bIsr").click(function () {
+                var vl = $(this).checked;
+                if ($(this).is(":checked")) {
+                    $("#recpDiv").css("display", "none");
+                }
+                else {
+                    $("#recpDiv").css("display", "flex");
+                    $("#recpDiv").find('input:text').val('');
+                }
+            });
+            $('.payment-method-info .checkbox').click(function () {
+                $('.payment-method-info .checkbox').each(function () {
+                    $(this).prop('checked', false);
+                });
+                $(this).prop('checked', true);
+            });
+            $("#customCheck1").click(function () {
+                var cartsum = $("#ctrsum").attr("data-crtsum");
+                var cur = $(this).attr("data-cur");
+                var tot = parseInt(cartsum);
+                $("#TotalofCart").text(tot.toLocaleString("en-US") + " " + cur);
+            });
+            $("#customCheck2").click(function () {
+                var cartsum = $("#ctrsum").attr("data-crtsum");
+                var cur = $(this).attr("data-cur");
+                var tot = parseInt(cartsum);
+                $("#TotalofCart").text(tot.toLocaleString("en-US") + " " + cur);
+            });
+            $("#customCheck3").click(function () {
+                var stval = $("#stId").val();
+
+                if (stval != "") {
+                    var cartsum = $("#ctrsum").attr("data-crtsum");
+                    var cur = $(this).attr("data-cur");
+                    var wght = $("#crtwt").attr("data-crtweight");
+
+                    $.ajax({
+                        url: "/Checkout?handler=FrCostofState",
+                        data: { stId: stval, weight: wght },
+                        type: "GET",
+                        success: function (result) {
+                            var fr = parseInt(result.freight);
+                            var tot = parseInt(cartsum) + fr;
+                            $("#TotalofCart").text(tot.toLocaleString("en-US") + " " + cur);
+                        },
+                        error: function () {
+
+                        }
+                    });
+
+                }
+                else {
+                    alert("ابتدا استان و شهرستان را انتخاب کنید !");
+                    $("#customCheck1").prop('checked', true);
+                    $("#customCheck2").prop('checked', false);
+                    $("#customCheck3").prop('checked', false);
+
+                }
+
+            });
+        });
+    </script>
+    }

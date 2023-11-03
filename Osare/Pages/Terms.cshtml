@@ -1,0 +1,80 @@
+﻿@page
+@model Web.Pages.TermsModel
+@{
+    ViewData["Title"] = "شرایط و ضوابط موجود در عصاره طبیعت";
+}
+@section CssRefs{
+    <link rel="stylesheet" href="/Layout/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Layout/css/animate.min.css">
+    <link rel="stylesheet" href="/Layout/css/magnific-popup.css">
+    <link rel="stylesheet" href="/Layout/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/Layout/css/jquery-ui.css">
+    <link rel="stylesheet" href="/Layout/css/flaticon.css">
+    <link rel="stylesheet" href="/Layout/css/aos.css">
+    <link rel="stylesheet" href="/Layout/css/slick.css">
+    <link rel="stylesheet" href="/Layout/css/default.css">
+    <link rel="stylesheet" href="/Layout/css/style.css">
+    <link rel="stylesheet" href="/Layout/css/responsive.css">
+    <style>
+        .shop--area li {
+            list-style: persian;
+        }
+    </style>
+}
+@section Header{
+    @await Component.InvokeAsync("HeaderComponent")
+    }
+@section Nav{
+    @await Component.InvokeAsync("MenuComponent")
+    }
+<main>
+    <!-- breadcrumb-area -->
+    <div class="breadcrumb-area breadcrumb-bg">
+        <div class="container custom-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content">
+                        <nav aria-label="breadcrumb">
+                            <h2 class="title">شرایط و ضوابط</h2>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">صفحه نخست</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">شرایط و ضوابط عصاره مارکت</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb-area-end -->
+    <!-- shop-area -->
+    <section class="shop--area pt-50 pb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 border rounded">                    
+                    @Html.Raw(Model.SiteTerm?.Text)
+                </div>                
+            </div>
+        </div>
+    </section>
+    <!-- shop-area-end -->
+</main>
+@section Footer{
+    @await Component.InvokeAsync("FooterComponent")
+    }
+@section JsRefs{
+    
+    <script src="~/jquery/jquery.min.js"></script>
+    <script src="/Layout/js/bootstrap.min.js"></script>
+    <script src="/Layout/js/isotope.pkgd.min.js"></script>
+    <script src="/Layout/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/Layout/js/jquery.magnific-popup.min.js"></script>
+    <script src="/Layout/js/jquery.countdown.min.js"></script>
+    <script src="/Layout/js/jquery-ui.min.js"></script>
+    <script src="/Layout/js/slick.min.js"></script>
+    <script src="/Layout/js/ajax-form.js"></script>
+    <script src="/Layout/js/wow.min.js"></script>
+    <script src="/Layout/js/aos.js"></script>
+    <script src="/Layout/js/plugins.js"></script>
+    <script src="/Layout/js/main.js"></script>
+    }

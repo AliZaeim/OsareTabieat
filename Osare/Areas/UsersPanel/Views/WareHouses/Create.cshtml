@@ -1,0 +1,84 @@
+﻿@model DataLayer.Entities.Store.WareHouse
+
+@{
+    ViewData["Title"] = "ثبت در دفتر انبار";
+    
+}
+
+<h1 class="text-xs-center alert alert-info">ثبت در دفتر انبار</h1>
+<h4 class="text-xs-center alert alert-warning">جهت ثبت در دفتر انبار، کالا یا زیرمجموعه کالا را انتخاب کنید، همزمان مجاز به انتخاب هر دوی آنها نیستید</h4>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="offset-md-4 col-md-4 col-xs-12">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                
+                <div class="form-group">
+                    <label asp-for="ProductId" class="control-label"></label>
+                    <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId">
+                        <option value="">لطفا کالا را انتخاب کنید</option>
+                    </select>
+                </div>
+                @*<div class="form-group">
+                    <label asp-for="ProductItemId" class="control-label"></label>
+                    <select asp-for="ProductItemId" class="form-control" asp-items="ViewBag.ProductItemId">
+                        <option value="">لطفا زیر مجموعه کالا را انتخاب کنید</option>
+                    </select>
+                </div>*@
+                <div class="form-group">
+                    <label asp-for="Input" class="control-label"></label>
+                    <input asp-for="Input" class="form-control" />
+                    <span asp-validation-for="Input" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Export" class="control-label"></label>
+                    <input asp-for="Export" class="form-control" />
+                    <span asp-validation-for="Export" class="text-danger"></span>
+                </div>           
+                <div class="form-group">
+                    <label asp-for="WareHouse_Comment" class="control-label"></label>
+                    <input asp-for="WareHouse_Comment" class="form-control" />
+                    <span asp-validation-for="WareHouse_Comment" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="ثــبت" class="btn btn-primary col-xs-12" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function(){            
+            var pitemid = $("ProductItemId").val();
+            $("#ProductId").change(function(){
+                var pid = $("#ProductId").val();                
+                if (pid !== "")
+                {                    
+                    $("#ProductItemId").prop('disabled', 'disabled');
+                }
+                else{
+                    $("#ProductItemId").removeAttr('disabled');
+                }
+            });
+            $("#ProductItemId").change(function(){
+                var pitemd = $("#ProductItemId").val();
+                if (pitemd !== "") {
+                    $("#ProductId").prop('disabled', 'disabled');
+                }
+                else{
+                    $("#ProductId").removeAttr('disabled');
+                }
+            });
+        });
+    </script>
+}

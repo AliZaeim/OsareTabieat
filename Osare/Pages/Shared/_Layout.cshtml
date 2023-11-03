@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="shortcut icon" href="/Layout/img/icon/favicon.png" type="image/x-icon" />
+    <!-- CSS here -->
+    @RenderSection("CssRefs",false)
+
+</head>
+<body dir="rtl">
+    <button class="scroll-top scroll-to-target" data-target="html">
+        <i class="fas fa-angle-up"></i>
+    </button>
+    @RenderSection("Header",false)
+    @RenderSection("Nav",false)
+
+
+    @RenderBody()
+
+
+    @RenderSection("Footer",false)
+    <!-- JS here -->
+    @RenderSection("JsRefs",false)
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

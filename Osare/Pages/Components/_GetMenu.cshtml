@@ -1,0 +1,97 @@
+﻿@model Core.DTOs.General.MenuComponentVM;
+<div id="sticky-header" class="menu-area">
+    <div class="container custom-container">
+        <div class="row">
+            <div class="col-12">
+                <div class="mobile-nav-toggler"><i class="fas fa-bars"></i></div>
+                <div class="menu-wrap">
+                    <nav class="menu-nav">
+
+                        <div class="logo w-100 d-flex d-lg-none">
+                            <a href="/" class="col-2 p-0"><img src="/Layout/img/logo/logo-128.png" width="48" height="48" alt=""></a>
+                            <a href="/" class="col-10 pr-sm-1 text-right align-self-end">
+                                <h1 class="fs-1dot9-rem">
+                                    <span class="orange-color">عصاره</span>
+                                    <span class="text-success">طبیعت</span>
+                                </h1>
+                            </a>
+                        </div>
+                        <div class="header-category d-none d-lg-block">
+                            <a href="#" class="cat-toggle"><i class="fas fa-bars"></i>همه دسته بندیها<i class="fas fa-angle-down"></i></a>
+                            <ul class="category-menu">
+                                @foreach (var gr in Model.ProductGroups.ToList())
+                                {
+                                    if (gr.Products.Count() == 0)
+                                    {
+                                        <li><a href="/Products/?gr=@gr.EnTitle"><i class="">@gr.Title</i></a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="menu-item-has-children">
+                                            <a href="/Products/?gr=@gr.EnTitle">@gr.Title</a>
+                                            <ul class="megamenu">
+                                                @foreach (var pr in gr.Products.ToList())
+                                                {
+                                                    <li class="sub-column-item">
+                                                        <a href="/Products/?pr=@pr.EnName">@pr.Name</a>
+                                                        <ul>
+                                                            @foreach (var pitem in pr.ProductItems!.ToList())
+                                                            {
+                                                                <li><a href="/shop/d/@pitem.EnName">@pitem.Name</a></li>
+                                                            }                                                    
+                                                        </ul>
+                                                    </li>
+                                                }
+
+                                            </ul>
+                                        </li>
+                                    }
+
+                                }
+                                
+                            </ul>
+                        </div>
+                        <div class="navbar-wrap main-menu d-none d-lg-flex">
+                            <ul class="navigation">
+                                <li><a href="/">عصاره طبیعت</a></li>
+                                <li><a href="/about">درباره ما</a></li>
+                                <li><a href="/Shop">فروشگاه</a></li>
+                                <li><a href="/blogs">مجله سلامتی</a></li>
+                                <li><a href="/Terms">شرایط و ضوابط</a></li>                                
+                                <li><a href="/Contact">ارتباط با ما</a></li>
+                                <li><a href="/MyOrders">سفارش های من</a></li>
+                            </ul>
+                        </div>
+
+                    </nav>
+                </div>
+
+                <!-- Mobile Menu  -->
+                <div class="mobile-menu">
+                    <nav class="menu-box">
+                        <div class="close-btn"><i class="fas fa-times"></i></div>
+                        <div class="nav-logo">
+                            <a href="/"><img src="/Layout/img/logo/logo-128.png" class="ml-1" alt="لوگوی عصاره طبیعت" title=""></a>
+                            <span class="orange-color font-family-Titr" style="font-size:28px">عصاره</span>
+                            <span class="text-success" style="font-size:28px">طبیعت</span>
+                        </div>
+                        <div class="menu-outer">
+                            <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
+                        </div>
+                        <div class="social-links">
+                            <ul class="clearfix">
+                                <li><a href="#"><span class="fab fa-twitter"></span></a></li>
+                                <li><a href="#"><span class="fab fa-facebook-f"></span></a></li>
+                                <li><a href="#"><span class="fab fa-pinterest-p"></span></a></li>
+                                <li><a href="#"><span class="fab fa-instagram"></span></a></li>
+                                <li><a href="#"><span class="fab fa-youtube"></span></a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="menu-backdrop"></div>
+                <!-- End Mobile Menu -->
+            </div>
+        </div>
+    </div>
+</div>

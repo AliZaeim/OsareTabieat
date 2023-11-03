@@ -1,0 +1,86 @@
+﻿@model IEnumerable<DataLayer.Entities.Blogs.Blog>
+@using Core.Utility;
+@using Core.Convertors;
+@if (Model != null)
+{
+    if (Model.Any())
+    {
+        <section class="blog-area pt-70 pb-50">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-6 col-lg-8 col-md-10">
+                        <div class="section-title section-title-two text-center mb-50">
+                            <span class="sub-title">مقالات ما</span>
+                            <h2 class="title">آخرین اخبار ما</h2>
+                            <p>غذای ارگانیک غذایی است که با روش هایی مطابق با استانداردهای کشاورزی ارگانیک در سراسر جهان تولید می شود</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-lg-4 col-md-6 col-sm-9">
+                            <div class="blog-post-item mb-30">
+                                <div class="blog-post-thumb">
+                                    <a href="/blog/d/@item.BlogShortKey"><img src="/images/blogs/@item.BlogImageInBlog" width="414" height="267" alt="@item.BlogTitle"></a>
+                                </div>
+                                <div class="blog-post-content">
+                                    @{
+                                        var dt = item.BlogDate.ToShamsiN();
+                                        string[] date = dt.Split("/");
+                                        int m =int.Parse(date[1].ToString());
+                                        string mounth = m.ToPersianMounth();
+                                        string day = date[2].ToString();
+                                        if (day.Length == 1)
+                                        {
+                                            day = "0" + day;
+                                        }
+                                    }
+                                    <div class="blog-post-date">@day <span>@mounth</span></div>
+                                    <div class="blog-post-meta">
+                                        <ul>
+                                            <li><a href="/blog/d/@item.BlogShortKey">@item.Author</a></li>
+                                            <li><a href="/blog/d/@item.BlogShortKey">0 دیدگاه</a></li>
+                                        </ul>
+                                    </div>
+                                    <h4 class="title"><a href="/blog/d/@item.BlogShortKey">@item.BlogTitle</a></h4>
+                                    <div class="blog-post-bottom">
+                                        <ul>
+                                            <li class="read-more"><a href="/blog/d/@item.BlogShortKey">بیشتر بدانید <i class="fas fa-angle-double-left"></i></a></li>
+                                            <li class="share-btn"><a href="/blog/d/@item.BlogShortKey"><i class="fas fa-share-alt"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @*<div class="col-lg-4 col-md-6 col-sm-9">
+                        <div class="blog-post-item mb-30">
+                            <div class="blog-post-thumb">
+                                <a href="blog-details.html"><img src="/Layout/img/blog/blog_post_thumb01.jpg" alt=""></a>
+                            </div>
+                            <div class="blog-post-content">
+                                <div class="blog-post-date">03 <span>خرداد</span></div>
+                                <div class="blog-post-meta">
+                                    <ul>
+                                        <li><a href="blog-details.html">فلان فلانی نسب</a></li>
+                                        <li><a href="blog-details.html">03 دیدگاه</a></li>
+                                    </ul>
+                                </div>
+                                <h4 class="title"><a href="blog-details.html">بهترین راه ها برای حمایت از سیستم ایمنی</a></h4>
+                                <div class="blog-post-bottom">
+                                    <ul>
+                                        <li class="read-more"><a href="blog-details.html">بیشتر بدانید <i class="fas fa-angle-double-left"></i></a></li>
+                                        <li class="share-btn"><a href="blog-details.html"><i class="fas fa-share-alt"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                    
+                </div>
+            </div>
+        </section>
+    }
+}
+

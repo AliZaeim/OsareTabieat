@@ -1,0 +1,205 @@
+﻿@model IEnumerable<DataLayer.Entities.Store.WareHouse>
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "دفتر انبار";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+    List<DataLayer.Entities.Store.ProductGroup> productGroups = ViewData["pGroups"] as List<DataLayer.Entities.Store.ProductGroup> ?? new List<DataLayer.Entities.Store.ProductGroup>();
+    List<DataLayer.Entities.Store.Product> products = ViewData["products"] as List<DataLayer.Entities.Store.Product> ?? new List<DataLayer.Entities.Store.Product>();
+    List<DataLayer.Entities.Store.ProductItem> productItems = ViewData["productitems"] as List<DataLayer.Entities.Store.ProductItem> ?? new List<DataLayer.Entities.Store.ProductItem>();
+    Dictionary<string, string> Units = new();
+    Units.Add("kg", "کیلوگرم"); Units.Add("gr", "گرم"); Units.Add("cc", "سی سی"); Units.Add("litr", "لیتر"); Units.Add("number", "عدد");
+}
+
+
+<div class="container-fluid mb-2">
+    <div class="row">
+        <h1 class="text-xs-center col-xs-12 alert alert-info">دفتر انبار</h1>
+        <div class="col-md-2 col-xs-12">
+            <a asp-action="Create" class="btn btn-success">ثبت در دفتر</a>
+        </div>
+        <div class="col-md-10 col-xs-12">
+            <div class="row text-md-center">
+                <p class="text-xs-center col-xs-12"><span class="border-bottom pr-2 pl-2">فیلتر</span></p>
+                <div class="col-md-3 col-xs-12 mb-1">
+
+                    <select id="grSel" class="col-xs-12">
+                        <option value="">گروه کالا را انتخاب کنید...</option>
+                        @{
+                            int? gid = null;
+                            if (ViewData["gr"] != null)
+                            {
+                                gid = int.Parse(ViewData["gr"]!.ToString()!);
+                            }
+                        }
+                        @foreach (var gr in productGroups!.ToList())
+                        {
+                            @if (gr.Id == gid.GetValueOrDefault())
+                            {
+                                <option selected value="@gr.Id">@gr.Title</option>
+                            }
+                            else
+                            {
+                                <option value="@gr.Id">@gr.Title</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3 col-xs-12 mb-1">
+                    <select id="prSel" class="col-xs-12">
+                        <option value="">کالا را انتخاب کنید...</option>
+                        @{
+                            int? pid = null;
+                            if (ViewData["pr"] != null)
+                            {
+                                pid = int.Parse(ViewData["pr"]!.ToString()!);
+                            }
+                        }
+                        @foreach (var pr in products!.ToList())
+                        {
+                            @if (pr.Id == pid.GetValueOrDefault())
+                            {
+                                <option selected value="@pr.Id">@pr.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@pr.Id">@pr.Name</option>
+                            }
+
+                        }
+
+                    </select>
+                </div>
+                <div class="col-md-3 col-xs-12 mb-1">
+                    <select id="itemSel" class="col-xs-12">
+                        <option value="">زیرمجموعه کالا را انتخاب کنید...</option>
+                        @{
+                            int? pitmid = null;
+                            if (ViewData["pitm"] != null)
+                            {
+                                pitmid = int.Parse(ViewData["pitm"]!.ToString()!);
+                            }
+                        }
+                        @foreach (var pitm in productItems!.ToList())
+                        {
+                            @if (pitm.Id == pitmid.GetValueOrDefault())
+                            {
+                                <option selected value="@pitm.Id">@pitm.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@pitm.Id">@pitm.Name</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+                <button class="col-md-2 col-xs-12" id="btnOk">تایید</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-bordered table-sm table-hover ">
+       
+        <thead>
+            <tr>
+                <th class="text-xs-center align-middle">کالا</th>
+
+                <th class="text-xs-center align-middle">تاریخ</th>
+                <th class="text-xs-center align-middle">ورود</th>
+                <th class="text-xs-center align-middle">خروج</th>
+                <th class="text-xs-center align-middle">مانده</th>
+                <th class="text-xs-center align-middle">شماره سفارش</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int x = Model.GroupBy(x => x.ProductId).Count();
+            }
+            @foreach (var item in Model.OrderBy(x => x.ProductId).ThenBy(r => r.RegDate).GroupBy(g => g.ProductId).ToList())
+            {
+                float RowRemain = 0;
+
+                @foreach (var item2 in item.ToList())
+                {
+                    //float re = item2.Input.GetValueOrDefault() - item2.Export.GetValueOrDefault();
+                    string unit = Units.FirstOrDefault(f => f.Key == item2.Product?.UnitofMeasure).Value?? "-";
+                    RowRemain += (float)(item2.Input.GetValueOrDefault() - item2.Export.GetValueOrDefault());
+                    <tr>
+                        <td class="text-xs-center align-middle">@item2.Product?.FullName</td>
+                        <td class="text-xs-center align-middle">@item2.RegDate.ToShamsiN_WithTime()</td>
+                        <td class="text-xs-center align-middle">@item2.Input.GetValueOrDefault() <span>@unit</span></td>
+                        <td class="text-xs-center align-middle">@item2.Export.GetValueOrDefault() @unit</td>
+                        <td class="text-xs-center align-middle">@RowRemain @unit</td>
+                        <td class="text-xs-center align-middle">@item2.OrderdetialId</td>
+
+                    </tr>
+                }
+
+            }
+        </tbody>
+
+
+
+    </table>
+</div>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#grSel").change(function () {
+                var vlu = $(this).val();
+                $.ajax({
+                    url: "/UsersPanel/WareHouses/GetGroupProducts",
+                    data: { gId: vlu },
+                    type: "GET",
+                    success: function (result) {
+                        if (result.length > 0) {
+                            $("#prSel").find('option').not(':first').remove();
+                            $.each(result, function (k, v) {
+                                var option = "<option value='" + v.id + "'>" + v.name + "</option>";
+                                $("#prSel").append(option);
+                            })
+                        }
+                        else {
+                            $("#prSel").find('option').not(':first').remove();
+                        }
+                    }
+                });
+            });
+            $("#prSel").change(function () {
+                var vlu = $(this).val();
+                $.ajax({
+                    url: "/UsersPanel/WareHouses/GetProductItems",
+                    data: { pId: vlu },
+                    type: "GET",
+                    success: function (result) {
+                        if (result.length > 0) {
+                            $("#itemSel").find('option').not(':first').remove();
+                            $.each(result, function (k, v) {
+                                var option = "<option value='" + v.id + "'>" + v.name + "</option>";
+                                $("#itemSel").append(option);
+                            });
+
+                        }
+                        else {
+                            $("#itemSel").find('option').not(':first').remove();
+                        }
+                    }
+                });
+
+
+            });
+            $("#btnOk").click(function () {
+                var grid = $("#grSel").val();
+                var prid = $("#prSel").val();
+                var pitmId = $("#itemSel").val()
+                var url = "/UsersPanel/WareHouses/Index?gr=" + grid + "&pr=" + prid + "&pitem=" + pitmId;
+
+                $(location).attr('href', url);
+            })
+        });
+    </script>
+}

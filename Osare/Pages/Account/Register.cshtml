@@ -1,0 +1,90 @@
+﻿@page "/Register/{ReturnUrl?}"
+@model Web.Pages.Account.RegisterModel
+@{
+    Layout = null;
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ثبت نام در سایت</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- Custom Theme files -->
+    <link href="~/Layout/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Layout/css/RegStyleSheet.css" rel="stylesheet" />
+    <!-- //Custom Theme files -->
+    <!-- web font -->
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet">
+    <!-- //web font -->
+    <link rel="canonical" href="https://osaretabieat.ir/Register" />
+</head>
+
+<body dir="rtl" lang="fa">
+    <!-- main -->
+    <div class="main-w3layouts wrapper">
+        <h1>فرم ثبت نام در سایت</h1>
+        <h4 class="text-center">بعد از ثبت نام رمز عبور، به تلفن همراه ارسال می گردد</h4>
+        <div class="main-agileinfo">
+            <div class="agileits-top">
+                <form method="post">
+                    <input type="hidden" asp-for="Registervm.RetUrl" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Registervm.User_Name" class="control-label text-white"></label>
+                        <input asp-for="Registervm.User_Name" autofocus class="form-control" />
+                        <span asp-validation-for="Registervm.User_Name" class="text-warning"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Registervm.User_Family" class="control-label text-white"></label>
+                        <input asp-for="Registervm.User_Family" autofocus class="form-control" />
+                        <span asp-validation-for="Registervm.User_Family" class="text-warning"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Registervm.User_Cellphone" class="control-label text-white"></label>
+                        <input asp-for="Registervm.User_Cellphone" autofocus class="form-control" />
+                        <span asp-validation-for="Registervm.User_Cellphone" class="text-warning"></span>
+                    </div>
+
+                    <input type="submit" class="btn btn-success" value="ثبت نام">
+                </form>
+                <p><a href="/Login">قبلا ثبت نام کرده ام !</a></p>
+                <p><a href="/">صفحه اصلی</a></p>
+            </div>
+        </div>
+
+        <ul class="colorlib-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <!-- //main -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (Model.Registervm.SaveIsSuccess)
+    {
+
+        <script>
+            Swal.fire({
+                title: 'عصاره طبیعت',
+                text: 'ثبت نام با موفقیت انجام شد',
+                icon: 'success',
+                confirmButtonText: 'متوجه شدم',
+            })
+            window.location.href = "/Index";
+        </script>
+
+    }
+</body>
+</html>

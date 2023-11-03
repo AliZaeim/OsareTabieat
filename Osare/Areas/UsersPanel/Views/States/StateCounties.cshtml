@@ -1,0 +1,42 @@
+﻿@model DataLayer.Entities.Supplementary.State
+
+@{
+    ViewData["Title"] = "شهرستان های استان " + Model.StateName;
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">شهرستان های استان  @Model.StateName</h1>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                #
+            </th>
+            <th class="text-xs-center align-middle">
+                نام شهرستان
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int rad = 1;
+        }
+        @foreach (var item in Model.Counties)
+        {
+            <tr>
+                <td class="text-xs-center align-middle">
+                    @rad
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.CountyName)
+                </td>
+            </tr>
+            rad++;
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>

@@ -1,0 +1,188 @@
+﻿@page
+@model Web.Pages.BlogsModel
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "مجله سلامتی عصاره طبیعت";
+}
+@section CssRefs{
+    <link rel="stylesheet" href="/Layout/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Layout/css/animate.min.css">
+    <link rel="stylesheet" href="/Layout/css/magnific-popup.css">
+    <link rel="stylesheet" href="/Layout/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/Layout/css/jquery-ui.css">
+    <link rel="stylesheet" href="/Layout/css/flaticon.css">
+    <link rel="stylesheet" href="/Layout/css/aos.css">
+    <link rel="stylesheet" href="/Layout/css/slick.css">
+    <link rel="stylesheet" href="/Layout/css/default.css">
+    <link rel="stylesheet" href="/Layout/css/style.css">
+    <link rel="stylesheet" href="/Layout/css/responsive.css">
+    <link rel="canonical" href="https://osaremarket.ir/blogs" />
+}
+@section Header{
+    @await Component.InvokeAsync("HeaderComponent")
+    }
+@section Nav{
+    @await Component.InvokeAsync("MenuComponent")
+    }
+<!-- main-area -->
+<main>
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb-area breadcrumb-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content">
+                        <h2 class="title">وبلاگ</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">صفحه نخست</a></li>
+                                @if (!string.IsNullOrEmpty(Model.Tag))
+                                {
+                                    <li class="breadcrumb-item"><a href="/blogs">وبلاگ</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">برچسب @Model.Tag.Replace("-"," ")</li>
+                                }
+                                else if(!string.IsNullOrEmpty(Model.Search))
+                                {
+                                    <li class="breadcrumb-item"><a href="/blogs">وبلاگ</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">جستجوی @Model.Search</li>
+                                }
+                                else
+                                {
+                                    <li class="breadcrumb-item"><a class="text-success" href="#">وبلاگ</a></li>
+                                }                                
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+    <!-- blog-area -->
+    <section class="blog-area blog-gray-bg">
+        <div class="container">
+            <div class="container-inner-wrap">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-md-10">
+                        @foreach (var bg in Model.Blogs)
+                        {
+                            <div class="standard-blog-item">
+                                <div class="blog-thumb">
+                                    <a href="/blog/d/@bg.BlogShortKey"><img src="/images/blogs/@bg.BlogImageInBlog" class="w-100" alt="@bg.BlogTitle"></a>
+                                </div>
+                                <div class="standard-blog-content">
+                                    <h4 class="title">
+                                        <a href="/blog/d/@bg.BlogShortKey">@bg.BlogTitle</a>
+                                    </h4>
+                                    <ul class="standard-blog-meta">
+                                        <li><a href="#"><i class="far fa-user"></i>@bg.Author</a></li>
+                                        <li><a href="#"><i class="far fa-calendar"></i>@bg.BlogDate.ToShamsiN()</a></li>
+                                        <li><a href="#"><i class="far fa-comment-alt"></i>0 دیدگاه</a></li>
+                                    </ul>
+                                    <p class="text-justify">@bg.BlogSummary</p>
+                                    <div class="blog-line" data-background="/img/blog/blog_item_line.png"></div>
+                                    <a href="/blog/d/@bg.BlogShortKey" class="btn read-more">بیشتر بدانید</a>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                    <div class="col-lg-4 col-md-10">
+                        <aside class="blog-sidebar">
+                            <div class="widget">
+                                <h4 class="widget-title">جستجو</h4>
+                                <div class="sidebar-search-form">
+                                    <form action="/blogs">
+                                        <input type="text" name="Search" placeholder="جستجو ...">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="widget">
+                                <h4 class="widget-title">نوشته های اخیر</h4>
+                                <div class="rc-post-list">
+                                    <ul>
+                                        @foreach (var item in Model.LastBlogs)
+                                        {
+                                            <li>
+                                                <div class="rc-post-thumb">
+                                                    <a href="/blogs/d/@item.BlogShortKey"><img src="/images/blogs/@item.BlogImageInBlog" alt="@item.BlogTitle"></a>
+                                                </div>
+                                                <div class="rc-post-content">
+                                                    <h6 class="title"><a href="/blogs/d/@item.BlogShortKey">@item.BlogTitle</a></h6>
+                                                    <span class="date"><i class="far fa-calendar-alt"></i>@item.BlogDate.ToShamsiN()</span>
+                                                </div>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="widget">
+                                <h4 class="widget-title">دسته بندیها</h4>
+                                <div class="sidebar-cat-list">
+                                    <ul>
+                                        @foreach (var gr in Model.BlogGroups)
+                                        {
+                                            if (Model.BlogGroup?.BlogGroupId == gr.BlogGroupId)
+                                            {
+                                                <li><a class="text-success" href="/blogs/?grId=@gr.BlogGroupId">@gr.BlogGroupTitle <i class="fas fa-angle-double-left"></i></a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="/blogs/?grId=@gr.BlogGroupId">@gr.BlogGroupTitle <i class="fas fa-angle-double-left"></i></a></li>
+                                            }
+                                        }
+
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="widget">
+                                <h4 class="widget-title">برچسب ها</h4>
+                                <div class="sidebar-tag-list">
+                                    <ul>
+                                        @foreach (var tg in Model.BlogKeys)
+                                        {
+                                            if (Model.Tag?.Replace("-"," ") == tg.Trim())
+                                            {
+                                                <li><a class="bg bg-success text-white" href="/blogs/?tag=@tg.Trim().Replace(" ", "-")">@tg</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="/blogs/?tag=@tg.Trim().Replace(" ", "-")">@tg</a></li>
+                                            }
+                                            
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- blog-area-end -->
+
+</main>
+<!-- main-area-end -->
+@section Footer{
+    @await Component.InvokeAsync("FooterComponent")
+    }
+@section JsRefs{
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="~/jquery/jquery.min.js"></script>
+    <script src="/Layout/js/bootstrap.min.js"></script>
+    <script src="/Layout/js/isotope.pkgd.min.js"></script>
+    <script src="/Layout/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/Layout/js/jquery.magnific-popup.min.js"></script>
+    <script src="/Layout/js/jquery.countdown.min.js"></script>
+    <script src="/Layout/js/jquery-ui.min.js"></script>
+    <script src="/Layout/js/slick.min.js"></script>
+    <script src="/Layout/js/ajax-form.js"></script>
+    <script src="/Layout/js/wow.min.js"></script>
+    <script src="/Layout/js/aos.js"></script>
+    <script src="/Layout/js/plugins.js"></script>
+    <script src="/Layout/js/main.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    }

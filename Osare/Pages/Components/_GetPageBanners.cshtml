@@ -1,0 +1,102 @@
+﻿@model DataLayer.Entities.Supplementary.PageBanner
+
+@if (Model?.BannerCount == 3)
+{
+    <section class="discount-area pt-80">
+        <div class="container">
+            <div class="row justify-content-center">
+                @foreach (var item in Model.PageBannerItems)
+                {
+                    <div class="col-xl-4 col-lg-6 col-md-8">
+                        <div class="discount-item mb-20">
+                            <div class="discount-thumb">
+                                <img src="~/images/pagebanners/@item.Image" alt="@item.Title">
+                            </div>
+                            <div class="discount-content">
+                                <span>@item.Title</span>
+                                
+                                @if (!string.IsNullOrEmpty(item.UrlLink))
+                                {
+                                    <h4 class="title"><a href="@item.UrlLink">@item.Text1</a></h4>
+                                    <a href="@item.UrlLink" class="btn">@item.UrlText</a>
+                                }
+                                else
+                                {
+                                    <h4 class="title">@item.Text1</h4>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+@if (Model?.BannerCount == 2)
+{
+    <section class="discount-style-two pt-60 pb-50" >
+        <div class="container">
+            <div class="row">
+                @foreach (var item in Model.PageBannerItems)
+                {
+                    <div class="col-lg-6">
+                        <div class="discount-item-two">
+                            <div class="discount-thumb">
+                                <img src="/images/pagebanners/@item.Image" alt="@item.Title">
+                            </div>
+                            <div class="discount-content">
+                                <span>@item.Title</span>
+                                @if (!string.IsNullOrEmpty(item.UrlLink))
+                                {
+                                    <h4 class="title text-danger"><a href="@item.UrlLink">@item.Text1</a></h4>
+                                }
+                                else
+                                {
+                                    <h4 class="title">@item.Text1</h4>
+                                }
+                                
+                                @if (!string.IsNullOrEmpty(item.Text2))
+                                {
+                                    <p>@item.Text2</p>
+                                }
+                                @if (!string.IsNullOrEmpty(item.UrlLink))
+                                {
+                                    <a href="@item.UrlLink" class="btn rounded-btn">@item.UrlText</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+@if (Model?.BannerCount == 1)
+{
+    @foreach (var item in Model.PageBannerItems)
+    {
+        <div class="coupon-area gray-bg pb-80 pt-80">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="coupon-bg" style="background-image:url(/images/pagebanners/@item.Image)">
+                            <div class="coupon-title">
+                                <span>@item.Title</span>
+                                <h3 class="title">@item.Text1</h3>
+                            </div>
+                            @if (!string.IsNullOrEmpty(item.Text2))
+                            {
+                                <div class="coupon-code-wrap">
+                                    <h5 class="code">@item.Text2</h5>
+                                    <img src="/Layout/img/images/coupon_code.png" alt="">
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+}

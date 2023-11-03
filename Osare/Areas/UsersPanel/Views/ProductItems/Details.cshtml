@@ -1,0 +1,139 @@
+﻿@model DataLayer.Entities.Store.ProductItem
+
+@{
+    ViewData["Title"] = "جزئیات " + Model.Name;
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">جزئیات زیر مجموعه @Model.Name</h1>
+
+<div class="container-fluid">
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EnName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EnName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product!.Name)
+        </dd>
+        
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Weight)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Weight) kg
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UnitofMeasure)
+        </dt>
+        <dd class="col-sm-10">
+            @switch (Model.UnitofMeasure)
+            {
+                case "kg":
+                    {
+                        <span>کیلوگرم</span>
+                        break;
+                    }
+                case "litr":
+                    {
+                        <span>لیتر</span>
+                        break;
+                    }
+                case "number":
+                    {
+                        <span>عدد</span>
+                        break;
+                    }
+                default:
+                    {
+                        <span>کیلوگرم</span>
+                        break;
+                    }
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ValueBaseOnUoM)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ValueBaseOnUoM)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>        
+        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PercentDiscount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PercentDiscount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ValueDiscount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ValueDiscount)
+        </dd>        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Tags)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Tags)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MinimumInventory)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MinimumInventory)
+        </dd>
+        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AsBestSelling)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AsBestSelling)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BestSellRate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BestSellRate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsSpecial)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsSpecial)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Label)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Label)
+        </dd>
+       
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">ویرایش</a> |
+    <a asp-action="Index">بازگشت</a>
+</div>

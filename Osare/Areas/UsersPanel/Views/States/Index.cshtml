@@ -1,0 +1,53 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.State>
+
+@{
+    ViewData["Title"] = "استانها";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+<h1 class="text-xs-center alert alert-info">استانها</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">ثبت استان</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle width-100">#</th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.StateName)
+            </th>
+            <th class="text-xs-center align-middle">
+                شهرستان ها
+            </th>
+            <th class="text-xs-center align-middle">
+                کرایه ها
+            </th>
+            <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int rad = 1;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-xs-center align-middle">@rad</td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.StateName)
+                </td>
+                <td class="text-xs-center align-middle">
+                    <a asp-action="StateCounties"  asp-route-stId="@item.StateId"><span class="tag tag-glow tag-success">@item.Counties.Count()</span></a>
+                </td>
+                <td class="text-xs-center align-middle"><a href="/UsersPanel/States/ShowStateFreights/?stId=@item.StateId" class="Stfr"><span class="tag tag-square tag-info">@item.StateFreights.Count()</span></a></td>
+                <td class="text-xs-center align-middle">
+                    <a asp-action="Edit" asp-route-id="@item.StateId">ویرایش</a> |
+                    <a asp-action="AddFreight" asp-route-StateId="@item.StateId">افزودن کرایه</a>
+                </td>
+            </tr>
+            rad++;
+        }
+    </tbody>
+</table>

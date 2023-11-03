@@ -1,0 +1,256 @@
+﻿@page
+@model Web.Pages.AboutModel
+@{
+    ViewData["Title"] = "اطلاعات کامل در مورد فروشگاه سلامت محور عصاره طبیعت";
+
+    int freeship = 1000000;
+    string cur = "ریال";
+    if (Model.siteInfo != null)
+    {
+        if (Model.siteInfo.FreeShippingValue.HasValue)
+        {
+            freeship = Model.siteInfo.FreeShippingValue.Value;
+        }
+        cur = Model.siteInfo.SiteCurrency ?? "ریال";
+
+    }
+
+}
+@section CssRefs{
+    <link rel="stylesheet" href="/Layout/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Layout/css/animate.min.css">
+    <link rel="stylesheet" href="/Layout/css/magnific-popup.css">
+    <link rel="stylesheet" href="/Layout/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/Layout/css/jquery-ui.css">
+    <link rel="stylesheet" href="/Layout/css/flaticon.css">
+    <link rel="stylesheet" href="/Layout/css/aos.css">
+    <link rel="stylesheet" href="/Layout/css/slick.css">
+    <link rel="stylesheet" href="/Layout/css/default.css">
+    <link rel="stylesheet" href="/Layout/css/style.css">
+    <link rel="stylesheet" href="/Layout/css/responsive.css">
+}
+@section Header{
+    @await Component.InvokeAsync("HeaderComponent")
+    }
+@section Nav{
+    @await Component.InvokeAsync("MenuComponent")
+    }
+<main>
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb-area breadcrumb-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content">
+                        <h2 class="title">درباره ما</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">صفحه نخست</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">درباره عصاره طبیعت</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+    <!-- ingredients-area -->
+    <section class="ingredients-area pt-90 pb-90">
+        <div class="container">
+            <div class="ingredients-inner-wrap">
+                <div class="row align-items-center">
+                    <div class="col-7">
+                        <div class="ingredients-img">
+                            <img src="/layout/img/images/ingredients_img.jpg" alt="">
+                            <div class="active-years">
+                                <h2 class="title">3 <span>سال سابقه</span></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="ingredients-content-wrap">
+                            <div class="ingredients-section-title">
+                                <span class="sub-title">شعار و پیام</span>
+                                <h2 class="title">عصاره طبیعت به مصرف کنندگان</h2>
+                            </div>
+                            <p class="text-justify zfs-20">
+                                سلامت همواره از آغاز یکی از دغدغه های اصلی بشریت بوده و هست که از سال های دور انسان آن را در طبیعت جستجو کرده ولی در قرن جدید به علت صنعتی شدن زندگی این مسیر از خط اصلی خود خارج شده و آدمی به زندگی صنعتی گرایش پیدا کرده که علت اصلی اکثر بیماری ها و امراض همین موضوع می باشد. هدف اصلی ما در مجموعه عصاره طبیعت همواره اراِئه محصولات سالم، خالص و تهیه شده از دل طبیعت می باشد. تمامی روغن های خوراکی و مراقبتی عصاره طبیعت، تهیه شده به روش پرس سرد و صد در صد خالص می باشد . محصولات رژیمی، وگان و کره مغزیجات از بهترین مواد اولیه و بهترین برندهای موجود در بازار تامین می شود چون ما مدافع سلامتی شما هستیم.
+                                با توجه به محدودیت اعلام شده توسط اداره بهداشت و حساسیت های بهداشتی در مورد مواد غذایی در صورت باز شدن پلمپ محصولات امکان مرجوعی وجود ندارد.
+                            </p>
+                            <div class="ingredients-fact">
+                                <ul>
+                                    <li>
+                                        <div class="icon"><img src="/Layout/img/icon/ing_icon01.png" alt=""></div>
+                                        <div class="content">
+                                            <h4>@Model.ProductCount</h4>
+                                            <span>محصول</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="icon"><img src="/Layout/img/icon/ing_icon02.png" alt=""></div>
+                                        <div class="content">
+                                            <h4>@Model.CustomerCount + </h4>
+                                            <span>مشتری فعال</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="ingredients-btn-wrap">
+                                <a href="/Terms" class="btn">شرایط و ضوابط</a>
+                                <a href="/Shop" class="store-link">فروشگاه فوق العاده ما <i class="fas fa-arrow-left"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ingredients-area-end -->
+    <!-- services-area -->
+    <section class="services-area services-bg">
+        <div class="container">
+            <div class="container-inner-wrap">
+                <div class="row justify-content-center">
+                    <div class="col-xl-7 col-lg-9">
+                        <div class="services-section-title text-center mb-55">
+                            <h2 class="title">آنچه ارائه می دهیم؟</h2>
+                            <p class="text-justify">فروشگاه عصاره طبیعت با دارا بودن دستگاه های روغن گیری، به روش پرس سرد، امکان تولید
+                                روغن های خوراکی و درمانی در حضور مشتری و همچنین تهیه کره مغزیجات خالص در محل فروشگاه را دارد.
+                                هدف ما تهیه محصولاتی‌ست سالم و با کیفیت که در ارتقاء سطح سلامت شما
+                                تاثیر گذار خواهد بود.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-10">
+                        <div class="services-item">
+                            <a href="javascript:void(0)" class="services-link"></a>
+                            <div class="icon"><i class="flaticon-return"></i></div>
+                            <div class="content">
+                                <h5>تضمین کیفیت</h5>
+                                <p>کیفیت محصولات در عصاره طبیعت بر اساس رضایت مشتریان است.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-10">
+                        <div class="services-item">
+                            <a href="javascript:void(0)" class="services-link"></a>
+                            <div class="icon"><i class="flaticon-delivery"></i></div>
+                            <div class="content">
+                                <h5>ارسال رایگان</h5>
+                                <p>سفارش های بالاتر از @freeship.ToString("N0") @cur به صورت رایگان ارسال می شوند.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-10">
+                        <div class="services-item">
+                            <a href="javascript:void(0)" class="services-link"></a>
+                            <div class="icon"><i class="flaticon-like-1"></i></div>
+                            <div class="content">
+                                <h5>تخفیف های عصاره</h5>
+                                <p>
+                                    سعی ما ارائه کلیه محصولات با تخفیف به مشتریان عزیز است                                    
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-10">
+                        <div class="services-item">
+                            <a href="javascript:void(0)" class="services-link"></a>
+                            <div class="icon"><i class="flaticon-nut"></i></div>
+                            <div class="content">
+                                <h5>مواد اولیه</h5>
+                                <p>مواد اولیه مورد استفاده در فروشگاه به صورت سالم و تا جای ممکن ارگانیک هستند.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-10">
+                        <div class="services-item">
+                            <a href="javascript:void(0)" class="services-link"></a>
+                            <div class="icon"><i class="flaticon-settings"></i></div>
+                            <div class="content">
+                                <h5>تجهیزات فروشگاه</h5>
+                                <p>مجهز به دستگاه های مدرن مانند روغن گیری به روش پرس سرد و کره گیری</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-10">
+                        <div class="services-item">
+                            <a href="/blogs" class="services-link"></a>
+                            <div class="icon"><i class="flaticon-online-service"></i></div>
+                            <div class="content">
+                                <h5>مقالات</h5>
+                                <p>محلی برای ارائه اطلاعات در مورد محصولات و ویژگی های سلامت محور آنها</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- services-area-emd -->    
+    <!-- online-support-area -->
+    <section class="online-support-area">
+        <div class="container">
+            <div class="container-inner-wrap">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="online-support-img">
+                            <img src="/img/support_img.png" alt="">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-7">
+                        <div class="online-support-content">
+                            <h2 class="title">منشور عصاره طبیعت</h2>
+                            <p class="text-justify">عصاره طبیعت خود را در حفظ سلامتی و تندرستی مشتریان مسئول می‌داند
+                                و بر اساس تجربیات و علوم کسب شده به مسیرهایی دست یافته که این مهم را
+                                یک تعهد واقعی برای خود می داند
+                            </p>
+                            <div class="support-info-wrap">
+                                <ul>
+                                    <li>
+                                        <div class="support-info-item">
+                                            <p>پشتیبانی شبانه روزی</p>
+                                            <h2><i class="flaticon-24-hour-service"></i> 24/7</h2>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="support-info-item">
+                                            <p>رضایت مشتری</p>
+                                            <h2><i class="flaticon-happy-1"></i> 91.2 %</h2>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- online-support-area-end -->
+
+</main>
+@section Footer{
+    @await Component.InvokeAsync("FooterComponent")
+    }
+<input type="hidden" id="savecell" value="@TempData["SaveCell"]?.ToString()" />
+<input type="hidden" id="mess" value="@TempData["Message"]?.ToString()" />
+@section JsRefs{
+    
+    <script src="/Layout/js/bootstrap.min.js"></script>
+    <script src="/Layout/js/isotope.pkgd.min.js"></script>
+    <script src="/Layout/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/Layout/js/jquery.magnific-popup.min.js"></script>
+    <script src="/Layout/js/jquery.countdown.min.js"></script>
+    <script src="/Layout/js/jquery-ui.min.js"></script>
+    <script src="/Layout/js/slick.min.js"></script>
+    <script src="/Layout/js/ajax-form.js"></script>
+    <script src="/Layout/js/wow.min.js"></script>
+    <script src="/Layout/js/aos.js"></script>
+    <script src="/Layout/js/plugins.js"></script>
+    <script src="/Layout/js/main.js"></script>
+   
+    }

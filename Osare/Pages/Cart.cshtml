@@ -1,0 +1,190 @@
+﻿@page "/Cart"
+@model Web.Pages.CartModel
+@{
+    ViewData["Title"] = "سبد خرید عصاره طبیعت";
+    string cur = "ریال";
+    if (Model.CartDets.SiteInfo != null)
+    {
+        cur = Model.CartDets.SiteInfo.SiteCurrency ?? "ریال";
+    }
+    int? Freeship = null;
+    if (Model.CartDets.SiteInfo != null)
+    {
+        Freeship = Model.CartDets.SiteInfo.FreeShippingValue;
+    }
+}
+@section CssRefs{
+    <link rel="stylesheet" href="/Layout/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Layout/css/animate.min.css">
+    <link rel="stylesheet" href="/Layout/css/magnific-popup.css">
+    <link rel="stylesheet" href="/Layout/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/Layout/css/jquery-ui.css">
+    <link rel="stylesheet" href="/Layout/css/flaticon.css">
+    <link rel="stylesheet" href="/Layout/css/aos.css">
+    <link rel="stylesheet" href="/Layout/css/slick.css">
+    <link rel="stylesheet" href="/Layout/css/default.css">
+    <link rel="stylesheet" href="/Layout/css/style.css">
+    <link rel="stylesheet" href="/Layout/css/responsive.css">
+}
+@section Header{
+    @await Component.InvokeAsync("HeaderComponent")
+    }
+@section Nav{
+    @await Component.InvokeAsync("MenuComponent")
+    }
+<main>
+
+    <!-- breadcrumb-area -->
+    <div class="breadcrumb-area breadcrumb-bg-two">
+        <div class="container custom-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">صفحه نخست</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">سبد خرید</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb-area-end -->
+    <!-- cart-area -->
+    @if (Model.CartDets.Cart != null)
+    {
+        <div class="cart-area pt-90 pb-90">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-7">
+                        <div class="cart-wrapper">
+                            <p class="text-center alert alert-primary">برای حذف کالا از سبد از دکمه &emsp;<i class="far fa-trash-alt text-danger"></i>&emsp; و برای ویرایش تعداد کالا بعد از تغییر تعداد آن از دکمه &emsp;<i class="far fa-edit text-success"></i>&emsp; استفاده کنید</p>
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="product-thumbnail"></th>
+                                            <th class="product-name text-lg-center">نام محصول</th>
+                                            <th class="product-price">قیمت</th>
+                                            <th class="product-quantity">تعداد</th>
+                                            <th class="product-subtotal">جمع</th>
+                                            <th class="product-delete"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.CartDets.CartItems!.ToList())
+                                        {
+                                            string title = string.Empty;
+                                            string image = string.Empty; string Enname = string.Empty;
+                                            if (item.ProductItemId == null)
+                                            {
+                                                title = item.Product?.FullName!;
+                                                image = item.Product?.SmallImage2!;
+                                                Enname = item.Product?.EnName!;
+                                            }
+                                            else
+                                            {
+                                                title = item.ProductItem!.Product?.Name + " " + item.ProductItem!.Name + " " + item.ProductItem!.Product?.Brand;
+                                                image = item.ProductItem.Product?.SmallImage2!;
+                                                Enname = item.ProductItem.Product?.EnName!;
+                                            }
+                                            <tr>
+                                                <td class="product-thumbnail"><a href="/shop/d/@Enname"><img src="/images/products/@image" alt="@title"></a></td>
+                                                <td class="product-name">
+                                                    <h4><a href="/shop/d/@Enname">@title</a></h4>
+                                                </td>
+                                                <td class="product-price">@item.NetPrice.ToString("N0") @cur</td>
+                                                <td class="product-quantity">
+                                                    <div class="cart--plus--minus">
+                                                        <form class="num-block">
+                                                            <input type="text" asp-for="@item.Quantity" class="in-num" >
+                                                            <div class="qtybutton-box">
+                                                                <span class="plus"><i class="fas fa-angle-up"></i></span>
+                                                                <span class="minus"><i class="fas fa-angle-down"></i></span>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    <span>
+                                                        @{
+                                                            int sTotal = item.NetPrice * item.Quantity;
+                                                        }
+                                                        @sTotal.ToString("N0") @cur
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a class="removeCartItem" data-cartid="@item.CartId.ToString()" data-itemid="@item.Id" data-name="@item.ProductItem?.Product?.Name @item.ProductItem?.Name" href="javascript:void(0)"><i class="far fa-trash-alt text-danger"></i></a>
+                                                    &ensp;
+                                                    <a class="updateCartItem" title="بروزرسانی سبد" data-cartid="@item.CartId.ToString()" data-itemid="@item.Id" href="javascript:void(0)"><i class="far fa-edit text-success"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="shop-cart-bottom">
+                            <div class="cart-coupon">
+                                <form action="#">
+                                    <input type="text" placeholder="کد تخفیف را وارد کیند ...">
+                                    <button class="btn">اعمال تخفیف</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-5 col-lg-12">
+                        <div class="shop-cart-total">
+                            <h3 class="title">مجموع</h3>
+                            <div class="shop-cart-widget">
+                                <form action="#">
+                                    <ul>
+                                        <li class="sub-total">
+                                            <span>جمع</span>
+                                            @{
+                                                int cartSum = Model.CartDets.CartItems!.Sum(x => x.NetPrice * x.Quantity);
+                                            }
+                                            @cartSum.ToString("N0") @cur
+                                        </li>
+                                    </ul>
+                                    <a href="/Checkout" class="btn">برو به صورتحساب</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="cart-area pt-90 pb-90">
+            <h4 class="text-center alert alert-danger">سبد خرید خالی است !</h4>
+        </div>
+    }
+
+    <!-- cart-area-end -->
+
+</main>
+@section Footer{
+    @await Component.InvokeAsync("FooterComponent")
+    }
+@section JsRefs{
+    <script src="~/Layout/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="/Layout/js/bootstrap.min.js"></script>
+    <script src="/Layout/js/isotope.pkgd.min.js"></script>
+    <script src="/Layout/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/Layout/js/jquery.magnific-popup.min.js"></script>
+    <script src="/Layout/js/jquery.countdown.min.js"></script>
+    <script src="/Layout/js/jquery-ui.min.js"></script>
+    <script src="/Layout/js/slick.min.js"></script>
+    <script src="/Layout/js/ajax-form.js"></script>
+    <script src="/Layout/js/wow.min.js"></script>
+    <script src="/Layout/js/aos.js"></script>
+    <script src="/Layout/js/plugins.js"></script>
+    <script src="/Layout/js/main.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    }

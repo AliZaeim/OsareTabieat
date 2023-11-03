@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.CustomerContact>
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "پیام های تماس با ما";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">پیام های تماس با ما</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle p-0">
+                #
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Cellphone)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.Message)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.RegDate)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int radif = 1;
+        }
+        @foreach (var item in Model.OrderByDescending(x => x.RegDate).ToList())
+        {
+            <tr>
+                <td class="text-xs-center align-middle p-0">
+                    @radif
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Cellphone)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @Html.DisplayFor(modelItem => item.Message)
+                </td>
+                <td class="text-xs-center align-middle">
+                    @item.RegDate.ToShamsiN_WithTime()
+                </td>
+            </tr>
+            radif++;
+        }
+    </tbody>
+</table>

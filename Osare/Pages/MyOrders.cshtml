@@ -1,0 +1,133 @@
+﻿@page
+@model Web.Pages.MyOrdersModel
+@using Core.Convertors;
+@{
+    ViewData["Title"] = "سفارش های من";
+}
+@section CssRefs{
+    <link rel="stylesheet" href="/Layout/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Layout/css/animate.min.css">
+    <link rel="stylesheet" href="/Layout/css/magnific-popup.css">
+    <link rel="stylesheet" href="/Layout/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/Layout/css/jquery-ui.css">
+    <link rel="stylesheet" href="/Layout/css/flaticon.css">
+    <link rel="stylesheet" href="/Layout/css/aos.css">
+    <link rel="stylesheet" href="/Layout/css/slick.css">
+    <link rel="stylesheet" href="/Layout/css/default.css">
+    <link rel="stylesheet" href="/Layout/css/style.css">
+    <link rel="stylesheet" href="/Layout/css/responsive.css">
+}
+@section Header{
+    @await Component.InvokeAsync("HeaderComponent")
+    }
+@section Nav{
+    @await Component.InvokeAsync("MenuComponent")
+    }
+<main>
+    <div class="breadcrumb-area breadcrumb-bg">
+        <div class="container custom-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content">
+                        <h2 class="title">سفارشهای من</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">صفحه نخست</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">سفارشهای من در عصاره مارکت</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            @if (User.Identity!.IsAuthenticated)
+            {
+                <section class="col-12 pt-10">
+                   
+                    <div class="row">
+                        <h5 class="text-md-center col-12 border pt-2 pb-2">
+                            @Model.LoginUser?.FullName
+                        </h5>
+                        <div class="col-12">
+                            @if (Model.Carts.Count != 0)
+                            {
+                                <table class="table table-bordered">
+
+                                    <thead>
+                                        <tr>
+                                            <th class="text-md-center align-middle">ردیف</th>
+                                            <th class="text-md-center align-middle">تاریخ</th>
+                                            <th class="text-md-center align-middle">شماره</th>
+                                            <th class="text-md-center align-middle"></th>
+                                            <th class="text-md-center align-middle"></th>
+                                            <th class="text-md-center align-middle"></th>
+                                            <th class="text-md-center align-middle"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{int rad = 1;}
+                                        @foreach (var item in Model.Carts)
+                                        {
+                                            <tr>
+                                                <td class="text-md-center align-middle">@rad</td>
+                                                <td class="text-md-center align-middle">@item.CreatedDate.ToShamsiN_WithTime()</td>
+                                                <td class="text-md-center align-middle">@item.DedicatedCode</td>
+                                                <td class="text-md-center align-middle"></td>
+                                                <td class="text-md-center align-middle"></td>
+                                                <td class="text-md-center align-middle"></td>
+                                                <td class="text-md-center align-middle"></td>
+                                            </tr>
+                                            rad++;
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <h6 class="text-center alert alert-danger p-md-5 p-xl-1">سفارشی برای شما ثبت نشده است !</h6>
+                            }
+                        </div>
+                    </div>
+
+
+
+                </section>
+
+            }
+            else
+            {
+                <section class="col-12 mt-50 mb-50">
+                    <h4 class="text-md-center alert w-100 alert-danger">برای مشاهده سفارش های خود باید وارد سایت شوید</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <a href="/Login?ReturnUrl=MyOrders" class="float-left btn btn-primary">ورود به سایت</a>
+                        </div>
+                    </div>
+                </section>
+            }
+
+        </div>
+    </div>
+</main>
+@section Footer{
+    @await Component.InvokeAsync("FooterComponent")
+    }
+@section JsRefs{
+
+    <script src="~/Layout/js/vendor/jquery.min.js"></script>
+    <script src="/Layout/js/bootstrap.min.js"></script>
+    <script src="/Layout/js/isotope.pkgd.min.js"></script>
+    <script src="/Layout/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/Layout/js/jquery.magnific-popup.min.js"></script>
+    <script src="/Layout/js/jquery.countdown.min.js"></script>
+    <script src="/Layout/js/jquery-ui.min.js"></script>
+    <script src="/Layout/js/slick.min.js"></script>
+    <script src="/Layout/js/ajax-form.js"></script>
+    <script src="/Layout/js/wow.min.js"></script>
+    <script src="/Layout/js/aos.js"></script>
+    <script src="/Layout/js/plugins.js"></script>
+    <script src="/Layout/js/main.js"></script>
+    }

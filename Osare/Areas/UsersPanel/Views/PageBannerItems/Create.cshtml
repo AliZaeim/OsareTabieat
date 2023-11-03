@@ -1,0 +1,104 @@
+﻿@model DataLayer.Entities.Supplementary.PageBannerItem
+
+@{
+    ViewData["Title"] = "ثبت بنر";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ثبت بنر</h1>
+<div class="container-fluid">
+    <div class="row">
+        <ul class="col-md-5">
+            ابعاد تصویر :
+            <li>بنر 3 تایی : عرض 425 پیکسل، ارتفاع 225 پیکسل</li>
+            <li>بنر 2 تایی : عرض 635 پیکسل، ارتفاع 300 پیکسل</li>
+            <li>بنر تکی : عرض 1310 پیکسل، ارتفاع 165 پیکسل</li>
+        </ul>
+        <ul class="col-md-5">
+            محتویات بنر :
+            <li>بنر 3 تایی &hArr; عنوان - متن1 - لینک - تصویر</li>
+            <li>بنر 2 تایی &hArr; عنوان - متن1 - متن2 - لینک - تصویر</li>
+            <li>بنر تکی &hArr; عنوان - متن1 - متن2 به عنوان کد تخفیف - تصویر زمینه</li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="offset-md-4 col-md-4 col-xs-12">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="HasDiscount" /> @Html.DisplayNameFor(model => model.HasDiscount)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Text1" class="control-label"></label>
+                    <input asp-for="Text1" class="form-control" />
+                    <span asp-validation-for="Text1" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Text2" class="control-label"></label>
+                    <input asp-for="Text2" class="form-control" />
+                    <span asp-validation-for="Text2" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Text3" class="control-label"></label>
+                    <input asp-for="Text3" class="form-control" />
+                    <span asp-validation-for="Text3" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UrlLink" class="control-label"></label>
+                    <input asp-for="UrlLink" class="form-control" />
+                    <span asp-validation-for="UrlLink" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UrlText" class="control-label"></label>
+                    <input asp-for="UrlText" class="form-control" />
+                    <span asp-validation-for="UrlText" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Image" class="control-label"></label>
+                    <input asp-for="Image" type="file" class="form-control" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ViewOrder" class="control-label"></label>
+                    <input asp-for="ViewOrder" class="form-control" />
+                    <span asp-validation-for="ViewOrder" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PBId" class="control-label"></label>
+                    <select asp-for="PBId" class="form-control" asp-items="ViewBag.PBId"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="ثبت" class="btn btn-primary col-xs-12" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    @if (ViewData["pbanId"] == null)
+    {
+        <a asp-action="Index">بازگشت</a>
+    }
+    else
+    {
+        <a asp-action="Index" asp-controller="PageBanners">بازگشت</a>
+    }
+    
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

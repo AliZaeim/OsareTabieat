@@ -1,0 +1,45 @@
+﻿@model DataLayer.Entities.Supplementary.StateFreight
+
+@{
+    ViewData["Title"] = "ویرایش کرایه";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">ویرایش کرایه استان</h1>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="offset-md-4 col-md-4 col-xs-12">
+            <form asp-action="EditStateFreight">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="StateId" />
+                <div class="form-group">
+                    <label asp-for="Weight" class="control-label"></label>
+                    <input asp-for="Weight" class="form-control" />
+                    <span asp-validation-for="Weight" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Freight" class="control-label"></label>
+                    <input asp-for="Freight" class="form-control" />
+                    <span asp-validation-for="Freight" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="ویرایش" class="btn btn-primary col-xs-12" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

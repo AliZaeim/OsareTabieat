@@ -1,0 +1,49 @@
+﻿@model IEnumerable<DataLayer.Entities.Supplementary.BannerNextBase>
+
+@{
+    ViewData["Title"] = "بنرها";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-info">بسته های بنرها</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">ثبت بسته بنر</a>
+</p>
+<table class="table table-borderd">
+    <thead>
+        <tr>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.BannerNextBase_Title)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.BannerNextBase_ShowingType)
+            </th>
+            <th class="text-xs-center align-middle">
+                @Html.DisplayNameFor(model => model.BannerNextBase_IsActive)
+            </th>
+            <th class="text-xs-center align-middle">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.BannerNextBase_Title)
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.BannerNextBase_ShowingType)
+            </td>
+            <td class="text-xs-center align-middle">
+                @Html.DisplayFor(modelItem => item.BannerNextBase_IsActive)
+            </td>
+            <td class="text-xs-center align-middle">
+                <a asp-action="Edit" asp-route-id="@item.BannerNextBase_Id">ویرایش</a> |
+                <a asp-action="Details" asp-route-id="@item.BannerNextBase_Id">جزئیات</a> |
+                <a asp-action="Delete" asp-route-id="@item.BannerNextBase_Id">حــذف</a> |
+                <a asp-action="Create" asp-controller="BannerNextSliders" asp-route-bId="@item.BannerNextBase_Id">افزودن بنر</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

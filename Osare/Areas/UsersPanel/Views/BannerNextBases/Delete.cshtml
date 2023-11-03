@@ -1,0 +1,39 @@
+﻿@model DataLayer.Entities.Supplementary.BannerNextBase
+
+@{
+    ViewData["Title"] = "حذف بسته بنر";
+    Layout = "~/Areas/UsersPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-xs-center alert alert-danger">حذف بسته بنر</h1>
+
+<h3 class="text-xs-center text-warning">آیا مطمئن به حذف بسته بنر هستید؟</h3>
+<div class="container-fluid">
+   
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BannerNextBase_Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BannerNextBase_Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BannerNextBase_ShowingType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BannerNextBase_ShowingType)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BannerNextBase_IsActive)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BannerNextBase_IsActive)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="BannerNextBase_Id" />
+        <input type="submit" value="حــذف" class="btn btn-danger" /> |
+        <a asp-action="Index">بازگشت</a>
+    </form>
+</div>

@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="fa" data-textdirection="rtl" class="loading">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="Mellat Assistant UsersPanel Temp">
+    <meta name="keywords" content="admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="Ali Zaeim">
+    <title>@ViewData["Title"]</title>
+    <link rel="shortcut icon" href="/Layout/img/icon/favicon.png" type="image/x-icon" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <partial name="_AdminCssRef" />
+</head>
+<body  data-open="click" data-menu="vertical-menu" data-col="2-columns" class="vertical-layout vertical-menu 2-columns  fixed-navbar">
+    <!-- navbar-fixed-top-->
+    <partial name="_AdminNavbarFixedtop" />
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+    <!-- main menu-->
+    <partial name="_AdminMenu" />
+    <!-- / main menu-->
+    <div class="app-content content container-fluid">
+        <div class="content-wrapper">            
+            <div class="content-body" id="content-body" style="min-height:82.5vh">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+    <footer class="footer footer-static footer-light navbar-border">
+        <p class="clearfix text-muted text-sm-center mb-0 px-2"><span class="float-md-left d-xs-block d-md-inline-block">تمامی حقوق برای عصاره طبیعت محفوظ است</span><span class="float-md-right d-xs-block d-md-inline-block"><i class="icon-heart5 pink"></i> بهبود سلامتی با عصاره طبیعت </span></p>
+    </footer>
+    <!-- BEGIN VENDOR JS-->
+    <partial name="_AdminJSRef" />
+    @RenderSection("Scripts", false)
+</body>
+</html>
+<div class="modal fade" id="adminmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" id="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" id="close-modal" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btnmodalDismiss" data-dismiss="modal">انصراف</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+            </div>
+        </div>
+    </div>
+</div>
